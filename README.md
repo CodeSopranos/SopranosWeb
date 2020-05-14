@@ -33,3 +33,4 @@ The secret  and legendary web project of @CodeSopranos team
 Hotlinks:
  - [Код сметаны с семинаров](https://bitbucket.org/osmetanin/pmi17/src/master/)
  - [Гуглешник с записями лекций](https://drive.google.com/drive/folders/1WmCNTIeBVCgo0prX4ndMkqfpRGpqmt4V)
+ - [Ссылка от Сметаны про запросы в терминах django-моделей](https://docs.djangoproject.com/en/3.0/topics/db/queries/)
