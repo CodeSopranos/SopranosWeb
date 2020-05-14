@@ -1,5 +1,13 @@
 # SopranosWeb
 The secret  and legendary web project of @CodeSopranos team
+## GET STARTED:
+[*setuping environment*](https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/)
+
+ 1. ```docker-compose build```<br>
+
+ 2. ```docker-compose up -d```<br>
+
+ 3. Then check dockerIP:8000<br>
 
 **Задание**<br>
 ```
@@ -20,17 +28,7 @@ The secret  and legendary web project of @CodeSopranos team
 4. Мобильный клиент
 5. Дизайн страниц
 по вопросам можете также писать мне в телеграмм  +79601733331
-```
-
-## GET STARTED:
-[*setuping environment*](https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/)
-
- 1. ```docker-compose build```<br>
-
- 2. ```docker-compose up -d```<br>
-
- 3. Then check dockerIP:8000<br>
- 
+``` 
  
 Hotlinks:
  - [Код сметаны с семинаров](https://bitbucket.org/osmetanin/pmi17/src/master/)
