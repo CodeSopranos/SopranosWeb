@@ -1,7 +1,7 @@
 # SopranosWeb
 The secret  and legendary web project of @CodeSopranos team
 ## GET STARTED:
-[*setuping environment*](https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/)
+[*setuping docker environment*](https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/)
 
  1. ```docker-compose build```<br>
 
