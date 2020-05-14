@@ -34,5 +34,5 @@ Hotlinks:
  - [Код сметаны с семинаров](https://bitbucket.org/osmetanin/pmi17/src/master/)
  - [Гуглешник с записями лекций](https://drive.google.com/drive/folders/1WmCNTIeBVCgo0prX4ndMkqfpRGpqmt4V)
  - [Ссылка от Сметаны про запросы в терминах django-моделей](https://docs.djangoproject.com/en/3.0/topics/db/queries/)
- - [Туториал от Сметаны по сетапу джонги и postgre](https://github.com/CodeSopranos/SopranosWeb/blob/master/tmp_smetana1.txt)
- - []()
+ - [Туториал от Сметаны по сетапу джонги и postgre](https://github.com/CodeSopranos/SopranosWeb/blob/master/tmp_smetana1.txt) (не забываем что у нас все в докере)
+ - [От Сметаны про MVC и Blog-Post пример](https://github.com/CodeSopranos/SopranosWeb/blob/master/tmp_smetana2.txt)
