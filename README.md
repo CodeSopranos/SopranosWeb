@@ -1,7 +1,8 @@
 # SopranosWeb
 The secret  and legendary web project of @CodeSopranos team
 ## GET STARTED:
-[*setuping docker environment*](https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/)
+[*setuping docker environment*](https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/)<br>
+[how to mount disk D in toolbox](https://headsigned.com/posts/mounting-docker-volumes-with-docker-toolbox-for-windows/)
 
  1. ```docker-compose build```<br>
 
