@@ -1,0 +1,8 @@
+<h1>Create new dashboard...<h1>
+ <h2>
+    <ul>
+        {% for board in dashboards %}
+            <li>Board {{board.id}}: {{board.title}}</li>
+        {% endfor %}
+    </ul>
+</h2>
