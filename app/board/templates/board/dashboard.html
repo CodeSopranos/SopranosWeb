@@ -16,13 +16,19 @@
     </li>
     {% endfor %}
 </ul>
-<h3>add new figure</h3>
-<form action="add_figure" method="POST">
+<p>add new figure</p>
+<!-- <form action="add_figure" method="POST">
     {% csrf_token %}
     <input type="text" name="theme" maxlength="40" size="30" placeholder="theme...e.g. Donald Trump"/>
-    <input type="number" name="n_articles"  placeholder=20>
     <input type="submit" value="Add"/>
+</form> -->
+<form >
+<select name="figure_type" size="4">
+		<option>Frequency analysis</option>
+		<option>Wordcloud</option>
+		<option>Correlation heatmap</option>
+		<option>Sentiment analysis</option>
+</select><br>
+
+		<input type="submit" value="Add" />
 </form>
-{% if error %}
-<p style="color:red;">{{ error }}</p>
-{% endif %}

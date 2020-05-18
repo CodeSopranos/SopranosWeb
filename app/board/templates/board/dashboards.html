@@ -9,8 +9,9 @@
 <h3>Create new dashboard</h3>
 <form action="create_dashboard" method="POST">
     {% csrf_token %}
-    <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}"/>
-    <input type="text" name="theme" maxlength="40" size="30" placeholder="e.g. Donald Trump" value="{{ theme }}"/>
+    <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}"/><br>
+    <input type="text" name="theme" maxlength="40" size="30" placeholder="e.g. Donald Trump" value="{{ theme }}"/><br>
+    <input type="number" name="n_articles"  placeholder=20>
     <input type="submit" value="Create"/>
 </form>
 {% if error %}
