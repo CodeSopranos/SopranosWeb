@@ -6,3 +6,9 @@
         {% endfor %}
     </ul>
 </h2>
+
+<form action="parse_theme" method="POST">
+    {% csrf_token %}
+    <input type="text" name="theme" maxlength="80" size="80" placeholder="...theme"/>
+    <input type="submit" value="Parse theme" />
+</form>
