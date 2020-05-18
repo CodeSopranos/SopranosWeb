@@ -1,8 +1,28 @@
-<h1>Create new dashboard...<h1>
- <h2>
-    <ul>
-        {% for board in dashboards %}
-            <li>Board {{board.id}}: {{board.title}}</li>
-        {% endfor %}
-    </ul>
-</h2>
+<h1>{{dashboard}}<h1>
+<h3>What we found for {{dashboard.theme}} theme:<h3>
+<h4>
+  <ul>
+      {% for article in dashboard.data %}
+      <li>
+          <b>{{ article.title }}</b><br />
+      </li>
+      {% endfor %}
+  </ul>
+</h4>
+<ul>
+    {% for figure in figures %}
+    <li>
+        <i>{{ figure.modify_at }}</i> {{ figure.tag }}<br />
+    </li>
+    {% endfor %}
+</ul>
+<h3>add new figure</h3>
+<form action="add_figure" method="POST">
+    {% csrf_token %}
+    <input type="text" name="theme" maxlength="40" size="30" placeholder="theme...e.g. Donald Trump"/>
+    <input type="number" name="n_articles"  placeholder=20>
+    <input type="submit" value="Add"/>
+</form>
+{% if error %}
+<p style="color:red;">{{ error }}</p>
+{% endif %}

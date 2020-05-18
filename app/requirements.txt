@@ -1,2 +1,6 @@
 Django==3.0.6
-psycopg2
+psycopg2==2.8.5
+beautifulsoup4==4.9.1
+requests==2.7.0
+lxml==4.5.0
+numpy==1.18.4
