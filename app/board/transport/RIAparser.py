@@ -17,7 +17,7 @@ class RIAparser(Transport):
         self.headers = {'Referer': 'https://ria.ru',
                         'User-Agent': self.agent}
 
-    def get(self, tag, **params):
+    def get(self, tag, n=5, **params):
         try:
             n_offsets = params['offset']
         except:
@@ -27,7 +27,6 @@ class RIAparser(Transport):
             hrefs = self.get_hrefs(tag=tag,
                                    request_params={'offset': i * 20},
                                    headers=self.headers)
-            n = 5
             for href in hrefs[:n]:
                 try:
                     article_info = self.get_article_info(href, headers=self.headers)
