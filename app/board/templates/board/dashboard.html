@@ -1,28 +1,26 @@
-<h1>{{dashboard}}<h1>
-<h3>What we found for {{dashboard.theme}} theme:<h3>
+<button type="button" name="button" onclick="history.back()">Back</button>
+<h1>{{dashboard}}</h1><p>created: {{dashboard.created_at}}</p>
+<h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
 <h4>
   <ul>
       {% for article in dashboard.data %}
       <li>
-          <b>{{ article.title }}</b><br />
+          <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }} </b><br />
       </li>
       {% endfor %}
   </ul>
 </h4>
-<ul>
+
+<div>
     {% for figure in figures %}
-    <li>
-        <i>{{ figure.modify_at }}</i> {{ figure.tag }}<br />
-    </li>
+    <div>
+        <{{ figure.modify_at }} {{ figure.tag }}
+    </div>
     {% endfor %}
-</ul>
+</div>
 <p>add new figure</p>
-<!-- <form action="add_figure" method="POST">
-    {% csrf_token %}
-    <input type="text" name="theme" maxlength="40" size="30" placeholder="theme...e.g. Donald Trump"/>
-    <input type="submit" value="Add"/>
-</form> -->
-<form >
+
+<form>
 <select name="figure_type" size="4">
 		<option>Frequency analysis</option>
 		<option>Wordcloud</option>

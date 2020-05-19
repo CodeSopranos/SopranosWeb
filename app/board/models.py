@@ -12,11 +12,16 @@ class Dashboard(Model):
     def __str__(self):
         return str(self.name)
 
-
+figure_types = [
+    ("frequency", "Frequency analysis"),
+    ("wordcloud", "Wordcloud"),
+    ("correlation", "Correlation heatmap"),
+    ("sentiment", "Sentiment analysis"),
+]
 
 class Figure(Model):
     dashboard = ForeignKey(Dashboard, on_delete=CASCADE)
-    tag = CharField(max_length=80)
+    type = CharField(choices=figure_types, max_length=40, default="Frequency analysis")
     data = JSONField()
     params = JSONField()
     modify_at = DateTimeField('creation timestamp', auto_now_add=True)

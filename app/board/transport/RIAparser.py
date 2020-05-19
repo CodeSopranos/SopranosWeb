@@ -1,4 +1,5 @@
 import bs4
+import re
 import time
 import string
 import requests
@@ -63,7 +64,9 @@ class RIAparser(Transport):
         text = ''.join([x.text for x in body])
 
         created_at = article.find('div', attrs={'class': 'article__info-date'})
-        created_at = created_at.text[-10:]
+        reg = "\d\d\.\d\d\.\d\d\d\d"
+        date = re.findall(reg, created_at.text)
+        created_at = date[-1]
         return dict(title=title,
                     text=text,
                     created_at=created_at)
