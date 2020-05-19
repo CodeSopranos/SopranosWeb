@@ -12,21 +12,26 @@
 </h4>
 
 <div>
+<b>Figures</b>
     {% for figure in figures %}
     <div>
-        <{{ figure.modify_at }} {{ figure.tag }}
+        <p>{{ figure.type }} (modified: {{ figure.modify_at }} )</p>
     </div>
     {% endfor %}
 </div>
+
 <p>add new figure</p>
 
-<form>
+<form  action="add_figure" method="POST">
+  {% csrf_token %}
 <select name="figure_type" size="4">
 		<option>Frequency analysis</option>
 		<option>Wordcloud</option>
 		<option>Correlation heatmap</option>
 		<option>Sentiment analysis</option>
 </select><br>
-
-		<input type="submit" value="Add" />
+		<input type="submit" value="Add"/>
 </form>
+{% if error %}
+  <p style="color:red;">{{ error }}</p>
+{% endif %}

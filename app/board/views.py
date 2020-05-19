@@ -41,8 +41,15 @@ def get_dashboard(request, dashboard_id, additional_context={}):
     context = {'dashboard': dashboard, 'figures': figures,  **additional_context}
     return HttpResponse(render(request, 'board/dashboard.html', context))
 
+
 def add_figure(request, dashboard_id):
+    try:
+        figure_type = request.POST['figure_type']
+    except:
+        error_message = 'Please select figure type!'
+        context = {'error': error_message}
+        return get_dashboard(request, dashboard_id, additional_context=context)
     dashboard = get_object_or_404(Dashboard, pk=dashboard_id)
-    ria_parser = RIAparser()
-    articles = ria_parser.get(tag='Прага', offset=1)
-    return HttpResponse(articles[0]['text'])
+    Figure.objects.create(dashboard=dashboard, type=figure_type, data={'lol':1}, params={'lol':1})
+    return HttpResponseRedirect(reverse('dashboard_by_id',
+                                kwargs={'dashboard_id': dashboard_id}))

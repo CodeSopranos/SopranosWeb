@@ -27,4 +27,4 @@ class Figure(Model):
     modify_at = DateTimeField('creation timestamp', auto_now_add=True)
 
     def __str__(self):
-        return str(self.tag)
+        return str(self.type)
