@@ -14,13 +14,16 @@ services:
       - db
   db:
     image: postgres:12.0-alpine
+    restart: always
     volumes:
-      - postgres_data:/var/lib/postgresql/data/pgdata
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=admin
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      - PGDATA=/tmp
 
 volumes:
   postgres_data:
