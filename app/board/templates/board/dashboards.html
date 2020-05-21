@@ -1,13 +1,14 @@
-<h1> My dashboards </h1>
+<a href="/board/signout/"><button type="button" >Sign out</button></a>
+<h1> {{ request.user.username }} dashboards </h1>
  <h2>
     <ul>
         {% for board in dashboards %}
-            <li>Board {{board.id}}: <a href="{% url 'dashboard_by_id' board.id %}">{{board.name}}</a> </li>
+            <li>Board: <a href="{% url 'dashboard_by_id' board.id %}">{{board.name}}</a> </li>
         {% endfor %}
     </ul>
 </h2>
 <h3>Create new dashboard</h3>
-<form action="create_dashboard" method="POST">
+<form action="create_dashboard/" method="POST">
     {% csrf_token %}
     <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}"/><br>
     <input type="text" name="theme" maxlength="40" size="30" placeholder="e.g. Donald Trump" value="{{ theme }}"/><br>

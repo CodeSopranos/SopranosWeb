@@ -1,8 +1,10 @@
 from django.contrib.postgres.fields import JSONField
+from django.contrib.auth.models import User
 from django.db.models import *
 
 
 class Dashboard(Model):
+    owner = ForeignKey(User, on_delete=CASCADE, default=None)
     name = CharField(max_length=80)
     theme = CharField(max_length=80, default='theme')
     created_at = DateTimeField('creation timestamp', auto_now_add=True)
