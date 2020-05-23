@@ -26,7 +26,7 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
-ALLOWED_HOSTS =['192.168.99.100'] #os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS =['192.168.99.100', '58a5aeb1.ngrok.io', 'f0ac4b9e.ngrok.io'] #os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 

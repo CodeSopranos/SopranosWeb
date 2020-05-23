@@ -8,7 +8,6 @@ class Dashboard(Model):
     name = CharField(max_length=80)
     theme = CharField(max_length=80, default='theme')
     created_at = DateTimeField('creation timestamp', auto_now_add=True)
-    user_id = IntegerField(default=0)
     data = JSONField(default={})
 
     def __str__(self):

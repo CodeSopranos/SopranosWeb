@@ -18,11 +18,11 @@ class RIAparser(Transport):
         self.headers = {'Referer': 'https://ria.ru',
                         'User-Agent': self.agent}
 
-    def get(self, tag, n=5, **params):
+    def get(self, tag, n=20, **params):
         try:
             n_offsets = params['offset']
         except:
-            n_offsets = 1
+            n_offsets = None
         for i in range(n_offsets):
             print('Offset',i)
             hrefs = self.get_hrefs(tag=tag,

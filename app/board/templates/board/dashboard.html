@@ -3,7 +3,7 @@
 <h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
 <h4>
   <ul>
-      {% for article in dashboard.data %}
+      {% for article in dashboard_data %}
       <li>
           <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }} </b><br />
       </li>
@@ -15,7 +15,8 @@
 <b>Figures</b>
     {% for figure in figures %}
     <div>
-        <p>{{ figure.type }} (modified: {{ figure.modify_at }} )</p>
+        <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
+        <p>{{figure.data}}</p>
     </div>
     {% endfor %}
 </div>

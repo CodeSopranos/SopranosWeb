@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from .models import Dashboard, Figure
 
 from .transport.RIAparser import RIAparser
-
+from .analyzer.Frequency import Frequency
 
 def sign_up(request):
     form = UserCreationForm(request.POST)
@@ -22,7 +22,7 @@ def sign_up(request):
         password = form.cleaned_data.get('password1')
         user = authenticate(username=username, password=password)
         login(request, user)
-        return show_dashboards(request)
+        return HttpResponseRedirect(reverse('dashboards'))
     return HttpResponse(render(request, 'board/signup.html', {'form': form}))
 
 def sign_out(request):
@@ -57,31 +57,39 @@ def create_dashboard(request):
     user = User.objects.get(pk=request.user.id)
     board_name = request.POST['board_name']
     theme = request.POST['theme']
-    n_articles = int(request.POST['n_articles'])
+    try:
+        n_offset = int(request.POST['n_articles'])
+    except:
+        n_offset = None
 
     error_message = None
     if not board_name or board_name.isspace():
         error_message = 'Please provide non-empty dashboard name!'
     if not theme or theme.isspace():
         error_message = 'Please provide non-empty dashboard theme!'
-    if n_articles < 1:
-        error_message = 'Please provide a postive number of articles!'
-    elif not n_articles:
-        n_articles = 5
+    if not n_offset or n_offset < 1 or n_offset > 10:
+        error_message = 'Please provide a postive number of pages!'
     if error_message:
         context = {'error': error_message, 'board_name':board_name, 'theme': theme}
         return show_dashboards(request, additional_context=context)
     ria_parser = RIAparser()
-    articles = ria_parser.get(tag=theme, n=n_articles, offset=1)
+    articles = ria_parser.get(tag=theme, n=20, offset=n_offset)
     Dashboard.objects.create(owner=user, name=board_name, theme=theme, data=articles)
     return HttpResponseRedirect(reverse('dashboards'))
 
 @login_required(login_url='/board/signin/')
 def get_dashboard(request, dashboard_id, additional_context={}):
+    user = User.objects.get(pk=request.user.id)
     dashboard = get_object_or_404(Dashboard, pk=dashboard_id)
-    figures = dashboard.figure_set.order_by('-modify_at')
-    context = {'dashboard': dashboard, 'figures': figures,  **additional_context}
-    return HttpResponse(render(request, 'board/dashboard.html', context))
+    if dashboard.owner == user:
+        figures = dashboard.figure_set.order_by('-modify_at')
+        context = { 'dashboard': dashboard,
+                    'dashboard_data':dashboard.data[:10],
+                    'figures': figures,
+                    **additional_context}
+        return HttpResponse(render(request, 'board/dashboard.html', context))
+    else:
+        return HttpResponseRedirect(reverse('dashboards'))
 
 @login_required(login_url='/board/signin/')
 def add_figure(request, dashboard_id):
@@ -92,6 +100,11 @@ def add_figure(request, dashboard_id):
         context = {'error': error_message}
         return get_dashboard(request, dashboard_id, additional_context=context)
     dashboard = get_object_or_404(Dashboard, pk=dashboard_id)
-    Figure.objects.create(dashboard=dashboard, type=figure_type, data={'lol':1}, params={'lol':1})
+    analyzed_data = {'lol':1}
+    if figure_type == 'Frequency analysis':
+        analyzer = Frequency(dashboard.data)
+        analyzer.preprocess()
+        analyzed_data = analyzer.analyze().to_dict()
+    Figure.objects.create(dashboard=dashboard, type=figure_type, data=analyzed_data, params={'lol':1})
     return HttpResponseRedirect(reverse('dashboard_by_id',
                                 kwargs={'dashboard_id': dashboard_id}))
