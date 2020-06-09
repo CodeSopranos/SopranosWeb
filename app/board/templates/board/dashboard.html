@@ -21,8 +21,19 @@
     {% endfor %}
 </div>
 
-<p>add new figure</p>
 
+<p>add description</p>
+
+<form  action="add_description" method="POST">
+  {% csrf_token %}
+		<input type="submit" value="Add"/>
+</form>
+{% load markdown_extras %}
+{{ dashboard.description | markdown | safe }}
+
+
+
+<p>add new figure</p>
 <form  action="add_figure" method="POST">
   {% csrf_token %}
 <select name="figure_type" size="4">
