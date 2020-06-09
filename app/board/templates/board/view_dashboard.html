@@ -1,0 +1,22 @@
+{% if request.user.is_authenticated %}
+  <a href="/board/dashboards/"><button type="button" >Back</button></a>
+  {% if request.user == dashboard.owner %}
+    <a href="{% url 'dashboard_by_id' dashboard.id %}"><button type="button" >Edit</button></a>
+  {% endif %}
+{% else %}
+  <a href="/board/feed/"><button type="button" >Back</button></a>
+{% endif %}
+<h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
+<div>
+{% load markdown_extras %}
+{{ dashboard.description | markdown | safe }}
+</div>
+<div>
+<b>Figures</b>
+    {% for figure in figures %}
+    <div>
+        <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
+        <p>{{figure.data}}</p>
+    </div>
+    {% endfor %}
+</div>

@@ -24,6 +24,7 @@ body {
     display:flex;
 }
 
+
 #form_wrapper {
         width: 1000px;
         height: 700px;
@@ -157,4 +158,14 @@ body {
                #form_left {
                    display: none;
                }
+           }
+
+           #error_message
+           {
+               display: grid;
+               font-family: 'Roboto',sans-serif;
+               font-weight: bold;
+               margin: 20px;
+               margin-left: 100px;
+               color: red;
            }

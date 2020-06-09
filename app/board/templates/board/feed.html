@@ -1,0 +1,8 @@
+<a href="/board/signin/"><button type="button" >Sign In</button></a>
+<a href="/board/signup/"><button type="button" >Sign Up</button></a>
+
+   <ul>
+       {% for board in dashboards %}
+           <li><h2>{{board.owner}}: <a href="{% url 'view_by_id' board.id %}">{{board.name}}</a></h2></li>
+       {% endfor %}
+   </ul>

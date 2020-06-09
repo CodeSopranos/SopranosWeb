@@ -7,6 +7,7 @@ class Dashboard(Model):
     owner = ForeignKey(User, on_delete=CASCADE, default=None)
     name = CharField(max_length=80)
     theme = CharField(max_length=80, default='theme')
+    private = BooleanField(default=False)
     description = TextField()
     created_at = DateTimeField('creation timestamp', auto_now_add=True)
     data = JSONField(default={})
