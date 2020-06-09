@@ -22,11 +22,12 @@
       <input  placeholder="Password" type="password" name="password"  id="field_password" class="input_field"/>
     </div>
     <input type="submit" value="Login" id='input_submit' class='input_field'>
+    {% if error %}
+    <p id="error_message">{{ error }}</p>
+    {% endif %}
 </form>
 </div>
-{% if error %}
-<p style="color:red;">{{ error }}</p>
-{% endif %}
+
 </div>
 </body>
 </html>
