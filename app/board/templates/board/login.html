@@ -1,17 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html"; charset="utf-8"/>
+    <link href="{% static 'board/login.css' %}" rel="stylesheet">
 </head>
 <body>
+<div id="form_wrapper" class="input_container">
+  <div id="form_left">
+               <img src="{% static 'board/log_icon.jpg' %}" alt="3d rjekich">
+  </div>
+<div id="form_right">
+  <h1>Sopranos Login</h1>
 <form method="post">
     {% csrf_token %}
-    Username: <input type="text" name="username" /><br/>
-    Password: <input type="password" name="password" /><br/>
-    <input type="submit" value="Login">
+    <div class="input_container">
+      <input  placeholder="Login" type="text" name="username" id="field_email" class="input_field"/>
+    </div>
+    <div class="input_container">
+      <i class="fas fa-lock"></i>
+      <input  placeholder="Password" type="password" name="password"  id="field_password" class="input_field"/>
+    </div>
+    <input type="submit" value="Login" id='input_submit' class='input_field'>
 </form>
+</div>
 {% if error %}
 <p style="color:red;">{{ error }}</p>
 {% endif %}
+</div>
 </body>
 </html>
