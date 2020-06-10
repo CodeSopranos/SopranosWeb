@@ -1,49 +1,79 @@
-<a href="/board/dashboards/"><button type="button" >Back</button></a>
-<h1>{{dashboard}}</h1><p>created: {{dashboard.created_at}}</p>
-<h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
-<h4>
-  <ul>
-      {% for article in dashboard_data %}
-      <li>
-          <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }} </b><br />
-      </li>
+{% load static %}
+
+<html>
+
+<head>
+  <!-- Load plotly.js into the DOM -->
+  <!-- <script type="text/javascript" src="{% static 'draw_graphics.js' %}"></script> -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <a href="/board/dashboards/"><button type="button" >Back</button></a>
+  <h1>{{dashboard}}</h1><p>created: {{dashboard.created_at}}</p>
+  <h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
+  <h4>
+    <ul>
+        {% for article in dashboard_data %}
+        <li>
+            <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }} </b><br />
+        </li>
+        {% endfor %}
+    </ul>
+  </h4>
+
+  <div>
+  <b>Figures</b>
+      {% for figure in figures %}
+      <div>
+          <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
+          <div id="myDiv"></div>
+
+          <script type="text/javascript">
+            var data_m = JSON.stringify("{{figure.data|get_keys}}").replace(/[^\u0400-\u04FF]/gi," ");
+            //alert(data_m.replace(/[^\u0400-\u04FF]/gi," "));
+            alert(data_m);
+            var trace = {
+                x: data_m,
+                y: "{{figure.data|get_values}}",
+                type: 'bar'
+                };
+            var data = [ trace ];
+            Plotly.newPlot('myDiv', data);
+        </script>
+          <p>{{figure.data}}</p>
+          <p>{{figure.data|get_keys}}</p>
+          <p>{{figure.data|get_values}}</p>
+      </div>
       {% endfor %}
-  </ul>
-</h4>
-
-<div>
-<b>Figures</b>
-    {% for figure in figures %}
-    <div>
-        <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
-        <p>{{figure.data}}</p>
     </div>
-    {% endfor %}
-</div>
 
 
-<p>add description</p>
+  <!-- {% autoescape off %}
+  {{ plot_div }}
+  {% endautoescape %} -->
 
-<form  action="add_description" method="POST">
-  {% csrf_token %}
-		<input type="submit" value="Add"/>
-</form>
-{% load markdown_extras %}
-{{ dashboard.description | markdown | safe }}
+  <form  action="add_description" method="POST">
+    {% csrf_token %}
+      <input type="submit" value="Add"/>
+  </form>
+  {% load markdown_extras %}
+  {{ dashboard.description | markdown | safe }}
 
+  <p>add new figure</p>
 
+  <form  action="add_figure" method="POST">
+    {% csrf_token %}
+  <select name="figure_type" size="4">
+      <option>Frequency analysis</option>
+      <option>Wordcloud</option>
+      <option>Correlation heatmap</option>
+      <option>Sentiment analysis</option>
+  </select><br>
+      <input type="submit" value="Add"/>
+  </form>
+  {% if error %}
+    <p style="color:red;">{{ error }}</p>
+  {% endif %}
 
-<p>add new figure</p>
-<form  action="add_figure" method="POST">
-  {% csrf_token %}
-<select name="figure_type" size="4">
-		<option>Frequency analysis</option>
-		<option>Wordcloud</option>
-		<option>Correlation heatmap</option>
-		<option>Sentiment analysis</option>
-</select><br>
-		<input type="submit" value="Add"/>
-</form>
-{% if error %}
-  <p style="color:red;">{{ error }}</p>
-{% endif %}
+</body>
+</html>

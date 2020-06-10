@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.defaulttags import register
 
 
 from django.contrib.auth.models import User
@@ -106,5 +107,23 @@ def add_figure(request, dashboard_id):
         analyzer.preprocess()
         analyzed_data = analyzer.analyze().to_dict()
     Figure.objects.create(dashboard=dashboard, type=figure_type, data=analyzed_data, params={'lol':1})
+
     return HttpResponseRedirect(reverse('dashboard_by_id',
                                 kwargs={'dashboard_id': dashboard_id}))
+
+@register.filter
+def get_keys(dictionary):
+    return list(dictionary.keys())
+
+@register.filter
+def get_values(dictionary):
+    return [dictionary[k] for k in dictionary]
+
+# def draw(request, dashboard_id):
+#     x_data = [0,1,2,3]
+#     y_data = [x**2 for x in x_data]
+#     plot_div = plot([Scatter(x=x_data, y=y_data,
+#                         mode='lines', name='test',
+#                         opacity=0.8, marker_color='green')],
+#                output_type='div')
+#     return HttpResponse(render(request, "board/dashboard.html", context={'plot_div': plot_div}))
