@@ -19,7 +19,7 @@
   <ul>
       {% for article in dashboard_data %}
       <li>
-          <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }} </b><br />
+          <b><i style="color:grey;">{{ article.created_at }}:</i> @{{article.title }}:</b> <i style="color:grey;">{{ article.text }}</i><br />
       </li>
       {% endfor %}
   </ul>

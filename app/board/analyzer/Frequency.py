@@ -43,3 +43,16 @@ class Frequency(Analyzer):
                 if 'NOUN' in parsed[0].tag:
                     words.append(parsed[0].normal_form)
         return ' '.join(words)
+
+
+    @staticmethod
+    def clean_eng(data):
+        try:
+            index = data.index('.')
+            data = data[index:]
+        except:
+            pass
+        words = []
+        for word in data.split(' '):
+            words.append(parsed[0].normal_form)
+        return ' '.join(words)
