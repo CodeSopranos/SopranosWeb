@@ -1,16 +1,22 @@
-{% load static %}
+<a href="/board/dashboards/"><button type="button" >Back</button></a>
+<a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
 
-<html>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<head>
-  <!-- Load plotly.js into the DOM -->
-  <!-- <script type="text/javascript" src="{% static 'draw_graphics.js' %}"></script> -->
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
-<body>
-  <a href="/board/dashboards/"><button type="button" >Back</button></a>
-  <h1>{{dashboard}}</h1><p>created: {{dashboard.created_at}}</p>
-  <h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
+<h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
+<div>
+{% load markdown_extras %}
+{{ dashboard.description | markdown | safe }}
+</div>
+
+<p>add description</p>
+<form  action="{% url 'add_description' dashboard.id %}" method="POST">
+  {% csrf_token %}
+ <textarea name="description" rows="10" cols="40">{{ dashboard.description }}</textarea>
+ <input type="submit" value="Commit"/>
+</form>
+
+<h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
   <h4>
     <ul>
         {% for article in dashboard_data %}
@@ -20,7 +26,7 @@
         {% endfor %}
     </ul>
   </h4>
-
+  
   <div>
   <b>Figures</b>
       {% for figure in figures %}
@@ -29,39 +35,34 @@
           <div id="myDiv"></div>
 
           <script type="text/javascript">
-            var data_m = JSON.stringify("{{figure.data|get_keys}}").replace(/[^\u0400-\u04FF]/gi," ");
-            //alert(data_m.replace(/[^\u0400-\u04FF]/gi," "));
-            alert(data_m);
-            var trace = {
-                x: data_m,
-                y: "{{figure.data|get_values}}",
+
+            var string = JSON.stringify('{{figure.data|get_keys}}').replace(/&#x27;/gi, "");
+            var xValue = string.split(',');
+
+            var yValue = JSON.parse('{{figure.data|get_values}}');
+
+            var data = [
+              {
+                x: xValue,
+                y: yValue,
                 type: 'bar'
-                };
-            var data = [ trace ];
+              }
+            ];
+
             Plotly.newPlot('myDiv', data);
-        </script>
+          </script>
           <p>{{figure.data}}</p>
-          <p>{{figure.data|get_keys}}</p>
-          <p>{{figure.data|get_values}}</p>
+          <!-- <p>{{figure.data|get_keys}}</p>
+          <p>{{figure.data|get_values}}</p> -->
       </div>
       {% endfor %}
-    </div>
-
-
-  <!-- {% autoescape off %}
-  {{ plot_div }}
-  {% endautoescape %} -->
-
-  <form  action="add_description" method="POST">
-    {% csrf_token %}
-      <input type="submit" value="Add"/>
-  </form>
-  {% load markdown_extras %}
-  {{ dashboard.description | markdown | safe }}
-
+  </div>
+  
+  
+  
+  
   <p>add new figure</p>
-
-  <form  action="add_figure" method="POST">
+  <form  action="{% url 'add_figure' dashboard.id %}" method="POST">
     {% csrf_token %}
   <select name="figure_type" size="4">
       <option>Frequency analysis</option>
@@ -74,6 +75,3 @@
   {% if error %}
     <p style="color:red;">{{ error }}</p>
   {% endif %}
-
-</body>
-</html>

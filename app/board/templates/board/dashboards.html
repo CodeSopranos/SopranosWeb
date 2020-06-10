@@ -1,20 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 <a href="/board/signout/"><button type="button" >Sign out</button></a>
-<h1> {{ request.user.username }} dashboards </h1>
- <h2>
-    <ul>
-        {% for board in dashboards %}
-            <li>Board: <a href="{% url 'dashboard_by_id' board.id %}">{{board.name}}</a> </li>
-        {% endfor %}
-    </ul>
-</h2>
+<h1> Dashboards </h1>
+{{ request.user.username }}
 <h3>Create new dashboard</h3>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src={% static 'board/slider.js' %}></script>
 <form action="create_dashboard/" method="POST">
     {% csrf_token %}
-    <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}"/><br>
-    <input type="text" name="theme" maxlength="40" size="30" placeholder="e.g. Donald Trump" value="{{ theme }}"/><br>
-    <input type="number" name="n_articles"  placeholder=20>
+    <div>
+      <label for="board_name">Name</label>
+      <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}"/><br>
+    </div>
+    <div>
+      <label for="theme">Theme</label>
+      <input type="text" name="theme" maxlength="40" size="30" placeholder="e.g. Donald Trump" value="{{ theme }}"/><br>
+    </div>
+    <div>
+        <p><input type="range" id="rangeInput" min="1" max="3"  value="2" name="n_articles">
+           Info <b><label id="rangeText"/></b></p>
+    </div>
+    <input type="checkbox" name="is_private">Private<Br>
     <input type="submit" value="Create"/>
 </form>
 {% if error %}
 <p style="color:red;">{{ error }}</p>
 {% endif %}
+
+<h2>
+   <ul>
+       {% for board in dashboards %}
+           <li>Board: <a href="{% url 'view_by_id' board.id %}">{{board.name}}</a>
+             <a href="{% url 'dashboard_by_id' board.id %}">edit</a> </li>
+       {% endfor %}
+   </ul>
+</h2>
+</html>

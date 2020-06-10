@@ -1,14 +1,16 @@
 from django.urls import path
-from . import views
+from .handlers import (feed, auth, dashboard, figure)
 
 
 urlpatterns = [
-    path('signout/', views.sign_out, name='signout'),
-    path('signin/', views.sign_in, name='signin'),
-    path('signup/', views.sign_up, name='signup'),
-    path('dashboards/', views.show_dashboards, name='dashboards'),
-    path('dashboards/create_dashboard/', views.create_dashboard),
-    path('<int:dashboard_id>/', views.get_dashboard, name='dashboard_by_id'),
-    path('<int:dashboard_id>/add_figure', views.add_figure, name='add_figure')
-    # path('<int:dashboard_id>/parse_theme', views.parse_theme, name='parse_theme')
+    path('feed/', feed.list_dashboards, name='feed'),
+    path('signout/', auth.sign_out, name='signout'),
+    path('signin/', auth.sign_in, name='signin'),
+    path('signup/', auth.sign_up, name='signup'),
+    path('dashboards/', dashboard.show_dashboards, name='dashboards'),
+    path('dashboards/create_dashboard/', dashboard.create_dashboard),
+    path('p/<int:dashboard_id>/', dashboard.view_dashboard, name='view_by_id'),
+    path('<int:dashboard_id>/', dashboard.get_dashboard, name='dashboard_by_id'),
+    path('<int:dashboard_id>/add_description', dashboard.add_description, name='add_description'),
+    path('<int:dashboard_id>/add_figure', figure.add_figure, name='add_figure')
 ]
