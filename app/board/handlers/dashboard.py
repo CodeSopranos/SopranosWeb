@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from board.models import Dashboard, Figure
 
 from board.transport.RIAparser import RIAparser
+from board.transport.Twiparser import TWITTERparser
 
 
 @login_required(login_url='/board/signin/')
@@ -50,28 +51,35 @@ def create_dashboard(request):
     user = User.objects.get(pk=request.user.id)
     board_name = request.POST['board_name']
     theme = request.POST['theme']
-    if  request.POST['is_private'] == 'on':
-        is_private = True
-    else:
+    try:
+        if request.POST['is_private']:
+            is_private = True
+    except:
         is_private = False
     try:
-        n_offset = int(request.POST['n_articles'])
+        n = int(request.POST['n_articles'])
     except:
-        n_offset = None
+        n = 5
 
     error_message = None
     if not board_name or board_name.isspace():
         error_message = 'Please provide non-empty dashboard name!'
     if not theme or theme.isspace():
         error_message = 'Please provide non-empty dashboard theme!'
-    if not n_offset or n_offset < 1 or n_offset > 10:
+    if not n or n < 1 or n > 10:
         error_message = 'Please provide a postive number of pages!'
     if error_message:
         context = {'error': error_message, 'board_name':board_name, 'theme': theme}
         return show_dashboards(request, additional_context=context)
-    ria_parser = RIAparser()
-    articles = ria_parser.get(tag=theme, n=20, offset=n_offset)
-    Dashboard.objects.create(owner=user, name=board_name, theme=theme, data=articles, private=is_private)
+    # ria_parser = RIAparser()
+    # articles = ria_parser.get(tag=theme, n=20, offset=n)
+    twi_parser = TWITTERparser()
+    articles   = twi_parser.get(tag=theme, n=n)
+    Dashboard.objects.create(owner=user,
+                             name=board_name,
+                             theme=theme,
+                             data=articles,
+                             private=is_private)
     return HttpResponseRedirect(reverse('dashboards'))
 
 @login_required(login_url='/board/signin/')
