@@ -1,147 +1,104 @@
-<a href="/board/dashboards/"><button type="button" >Back</button></a>
-<a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
+{% load static %}
 
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<style>
-  #myDivMove {
-    position: absolute;
-    z-index: 9;
-    background-color: #f1f1f1;
-    text-align: center;
-    border: 1px solid #d3d3d3;
-  } 
-  #myDiv {
-    height: 600px;
-    width: 600px; 
-  }
-  #mydivheader {
-    padding: 1px;
-    cursor: move;
-    z-index: 10;
-    background-color: #2196F3;
-    color: #fff;
-  }
-</style>
-<h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
-<div>
-{% load markdown_extras %}
-{{ dashboard.description | markdown | safe }}
-</div>
+<head>
+    <script src="{% static 'board/draw_graphics.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
 
-<p>add description</p>
-<form  action="{% url 'add_description' dashboard.id %}" method="POST">
-  {% csrf_token %}
- <textarea name="description" rows="10" cols="40">{{ dashboard.description }}</textarea>
- <input type="submit" value="Commit"/>
-</form>
+<body>
 
-<h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
-  <h4>
-    <ul>
-        {% for article in dashboard_data %}
-        <li>
-            <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }} </b><br />
-        </li>
-        {% endfor %}
-    </ul>
-  </h4>
-  
-  <div>
-  <b>Figures</b>
-      {% for figure in figures %}
+    <a href="/board/dashboards/"><button type="button" >Back</button></a>
+    <a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
+
+    <style>
+      #MoovingChart {
+        position: absolute;
+        z-index: 9;
+        background-color: #f1f1f1;
+        text-align: center;
+        border: 1px solid #d3d3d3;
+      } 
+      #Chart {
+        height: 600px;
+        width: 600px; 
+      }
+      #ChartHeader {
+        padding: 1px;
+        cursor: move;
+        z-index: 10;
+        background-color: #2196F3;
+        color: #fff;
+      }
+    </style>
+    <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
+    <div>
+    {% load markdown_extras %}
+    {{ dashboard.description | markdown | safe }}
+    </div>
+
+    <p>add description</p>
+    <form  action="{% url 'add_description' dashboard.id %}" method="POST">
+      {% csrf_token %}
+    <textarea name="description" rows="10" cols="40">{{ dashboard.description }}</textarea>
+    <input type="submit" value="Commit"/>
+    </form>
+
+    <h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
+      <h4>
+        <ul>
+            {% for article in dashboard_data %}
+            <li>
+                <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }} </b><br />
+            </li>
+            {% endfor %}
+        </ul>
+      </h4>
+      
       <div>
-          <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
-          <div id="myDivMove">
-            <div id="myDiv"></div>
-            <div id="mydivheader">Click here to move</div>
-            
-            <!-- <p>Move</p>
-            <p>this</p>
-            <p>DIV</p> -->
+      <b>Figures</b>
+          {% for figure in figures %}
+          <div>
+              <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
+              <div id="MoovingChart">
+                <div id="Chart"></div>
+                <div id="ChartHeader">Click here to move</div>
+                
+                <!-- <p>Move</p>
+                <p>this</p>
+                <p>DIV</p> -->
+              </div>
+              <script type="text/javascript">
+                  var keys = "{{figure.data|get_keys}}";
+                  var values = "{{figure.data|get_values}}"
+                  draw("Chart", keys, values);
+              </script>
+
+              <script type="text/javascript">
+                  dragElement(document.getElementById("MoovingChart"));
+              </script>
+
+              <p>{{figure.data}}</p>
+              <!-- <p>{{figure.data|get_keys}}</p>
+              <p>{{figure.data|get_values}}</p> -->
           </div>
-          <script type="text/javascript">
-
-            var string = JSON.stringify('{{figure.data|get_keys}}').replace(/&#x27;/gi, "");
-            var xValue = string.split(',');
-
-            var yValue = JSON.parse('{{figure.data|get_values}}');
-
-            var data = [
-              {
-                x: xValue,
-                y: yValue,
-                type: 'bar'
-              }
-            ];
-
-            Plotly.newPlot('myDiv', data);
-          </script>
-
-          <script>
-            dragElement(document.getElementById("myDivMove"));
-            function dragElement(elmnt) {
-              var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-              if (document.getElementById(elmnt.id + "header")) {
-                // if present, the header is where you move the DIV from:
-                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-              } else {
-                // otherwise, move the DIV from anywhere inside the DIV:
-                elmnt.onmousedown = dragMouseDown;
-              }
-
-              function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // get the mouse cursor position at startup:
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                // call a function whenever the cursor moves:
-                document.onmousemove = elementDrag;
-              }
-
-              function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // calculate the new cursor position:
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                // set the element's new position:
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-              }
-
-              function closeDragElement() {
-                // stop moving when mouse button is released:
-                document.onmouseup = null;
-                document.onmousemove = null;
-              }
-            }
-          </script>
-
-          <p>{{figure.data}}</p>
-          <!-- <p>{{figure.data|get_keys}}</p>
-          <p>{{figure.data|get_values}}</p> -->
+          {% endfor %}
       </div>
-      {% endfor %}
-  </div>
-  
-  
-  
-  
-  <p>add new figure</p>
-  <form  action="{% url 'add_figure' dashboard.id %}" method="POST">
-    {% csrf_token %}
-  <select name="figure_type" size="4">
-      <option>Frequency analysis</option>
-      <option>Wordcloud</option>
-      <option>Correlation heatmap</option>
-      <option>Sentiment analysis</option>
-  </select><br>
-      <input type="submit" value="Add"/>
-  </form>
-  {% if error %}
-    <p style="color:red;">{{ error }}</p>
-  {% endif %}
+      
+      
+      
+      
+    <p>add new figure</p>
+    <form  action="{% url 'add_figure' dashboard.id %}" method="POST">
+      {% csrf_token %}
+    <select name="figure_type" size="4">
+        <option>Frequency analysis</option>
+        <option>Wordcloud</option>
+        <option>Correlation heatmap</option>
+        <option>Sentiment analysis</option>
+    </select><br>
+        <input type="submit" value="Add"/>
+    </form>
+    {% if error %}
+      <p style="color:red;">{{ error }}</p>
+    {% endif %}
+</body>
