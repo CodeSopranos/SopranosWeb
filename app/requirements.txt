@@ -1,5 +1,6 @@
 Django==3.0.6
 psycopg2-binary==2.8.5
+gunicorn==19.9.0
 beautifulsoup4==4.9.1
 requests==2.7.0
 lxml==4.5.0
