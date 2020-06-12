@@ -5,7 +5,7 @@ services:
     build:
       context: ./app
       dockerfile: dockerfile.prod
-    command: gunicorn sopranos_web.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn -w 5 sopranos_web.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
