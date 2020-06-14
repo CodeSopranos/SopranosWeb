@@ -15,14 +15,14 @@ class Dashboard(Model):
     def __str__(self):
         return str(self.name)
 
-figure_types = [
-    ("frequency", "Frequency analysis"),
-    ("wordcloud", "Wordcloud"),
-    ("correlation", "Correlation heatmap"),
-    ("sentiment", "Sentiment analysis"),
-]
 
 class Figure(Model):
+    figure_types = [
+        ("frequency", "Frequency analysis"),
+        ("wordcloud", "Wordcloud"),
+        ("correlation", "Correlation heatmap"),
+        ("sentiment", "Sentiment analysis"),
+    ]
     dashboard = ForeignKey(Dashboard, on_delete=CASCADE)
     type = CharField(choices=figure_types, max_length=40, default="Frequency analysis")
     data = JSONField()

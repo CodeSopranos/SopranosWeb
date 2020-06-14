@@ -11,4 +11,4 @@ pymorphy2-dicts==2.4.393442.3710985
 sklearn
 markdown==3.2.1
 twitter-scraper==0.4.2
-django-simple-gravatar
+django-widget-tweaks==1.4.8
