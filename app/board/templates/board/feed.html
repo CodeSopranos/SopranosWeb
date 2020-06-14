@@ -1,3 +1,7 @@
+<header>
+  {% load gravatar_simple %}
+  <img src="{{ request.user.email | gravatar_url }}">
+</header>
 <a href="/board/signin/"><button type="button" >Sign In</button></a>
 <a href="/board/signup/"><button type="button" >Sign Up</button></a>
 

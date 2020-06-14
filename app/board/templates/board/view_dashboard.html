@@ -1,3 +1,7 @@
+<header>
+  {% load gravatar_simple %}
+  <img src="{{ request.user.email | gravatar_url }}">
+</header>
 {% if request.user.is_authenticated %}
   <a href="/board/dashboards/"><button type="button" >Back</button></a>
   {% if request.user == dashboard.owner %}
