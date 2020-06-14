@@ -94,6 +94,7 @@ body {
             font-size: 1.3rem;
             font-weight: 400;
             padding-left: 30px;
+            margin-top: 10px;
         }
 
         .input_field:hover,
@@ -117,6 +118,30 @@ body {
             transition: background-color,
                 1s;
             cursor: pointer;
+        }
+
+        #signup {
+            /* submit button has a different color and different padding */
+            margin-top: 20px;
+            font-weight: bold;
+            color: lightgray;
+            text-transform: uppercase;
+        }
+        #signup:hover {
+            margin-top: 20px;
+            font-weight: bold;
+            color: gray;
+            text-transform: uppercase;
+        }
+
+        #error_message {
+          font-family: 'Roboto',
+          sans-serif;
+          font-weight: bold;
+          color: orange;
+          padding: 0;
+          padding-left: 100px;
+          margin: 0;
         }
 
         h1,
@@ -158,14 +183,4 @@ body {
                #form_left {
                    display: none;
                }
-           }
-
-           #error_message
-           {
-               display: grid;
-               font-family: 'Roboto',sans-serif;
-               font-weight: bold;
-               margin: 20px;
-               margin-left: 100px;
-               color: red;
            }
