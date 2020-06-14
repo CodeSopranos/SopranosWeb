@@ -6,7 +6,7 @@ The secret  and legendary web project of @CodeSopranos team
 
 *!If you do not have volume **postgres_data** then run ```docker volume create postgres_database```*!
 
-Build and up docker:
+Build and up docker in dev mode:
  1. ```docker-compose build```<br>
  2. ```docker-compose up -d```<br>
  3. Then check dockerIP:8000/board/<br>
@@ -14,17 +14,21 @@ Build and up docker:
 You can also to run django manage commands. <br>
 For example, get into db ```docker-compose exec db psql --username=admin --dbname=admin ```
 
-**Задание**<br>
-```
-Экзамен 11 июня
+Run docker in prod mode:
+ 1. ```docker-compose -f docker-compose.prod.yml up -d --build```<br>
+ 2. Then check dockerIP:1337/board/<br>
 
+
+**Критерии**<br>
+```
 Что должно быть в проектах:
-1. База данных, мастер-детальные отношения
-2. Генерация страниц по шаблону
-3. Пользовательский контент (POST-формы с валидацией)
-4. Аутентификация пользователей, сессии (тема следующей лекции)
+1. База данных, мастер-детальные отношения +
+2. Генерация страниц по шаблону +
+3. Пользовательский контент (POST-формы с валидацией) +
+4. Аутентификация пользователей, сессии (тема следующей лекции) +
 5. Работа приложения под управлением внешнего веб-сервера (nginx/apache/..., тоже будет в лекциях)
-6. Админка как минимум для тех частей приложения, которые не доступны для изменения через общий пользовательский интерфейс
+6. Админка как минимум для тех частей приложения, 
+   которые не доступны для изменения через общий пользовательский интерфейс
 
 Идеи на доп. баллы (для тех, кто хочет 9-10):
 1. Логика клиентского уровня (JS, ajax/json и т.п.)
@@ -32,12 +36,4 @@ For example, get into db ```docker-compose exec db psql --username=admin --dbnam
 3. Аутентификация через google/FB/twitter/etc.
 4. Мобильный клиент
 5. Дизайн страниц
-по вопросам можете также писать мне в телеграмм  +79601733331
 ``` 
- 
-Hotlinks:
- - [Код сметаны с семинаров](https://bitbucket.org/osmetanin/pmi17/src/master/)
- - [Гуглешник с записями лекций](https://drive.google.com/drive/folders/1WmCNTIeBVCgo0prX4ndMkqfpRGpqmt4V)
- - [Ссылка от Сметаны про запросы в терминах django-моделей](https://docs.djangoproject.com/en/3.0/topics/db/queries/)
- - [Туториал от Сметаны по сетапу джонги и postgre](https://github.com/CodeSopranos/SopranosWeb/blob/master/tmp_smetana1.txt) (не забываем что у нас все в докере)
- - [От Сметаны про MVC и Blog-Post пример](https://github.com/CodeSopranos/SopranosWeb/blob/master/tmp_smetana2.txt)
