@@ -1,6 +1,9 @@
+{% load gravatar_simple %}
+<img src="{{ request.user.email | gravatar_url }}">
+<header>
 <a href="/board/dashboards/"><button type="button" >Back</button></a>
 <a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
-
+<header/>
 <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
 <div>
 {% load markdown_extras %}
