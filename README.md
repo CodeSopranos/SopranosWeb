@@ -8,7 +8,7 @@ The secret  and legendary web project of @CodeSopranos team. <br>
 [*setuping docker environment*](https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/)<br>
 [*how to mount disk D in toolbox*](https://headsigned.com/posts/mounting-docker-volumes-with-docker-toolbox-for-windows/)
 
-*!If you do not have volume **postgres_data** then run ```docker volume create postgres_database```*!
+*!If you do not have volume **postgres_data** then run ```docker volume create postgres_data```*!
 
 Build and up docker in dev mode:
  1. ```docker-compose build```<br>
