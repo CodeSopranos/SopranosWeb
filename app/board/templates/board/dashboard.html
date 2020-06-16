@@ -1,4 +1,6 @@
 {% load static %}
+{% load gravatar_simple %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +17,13 @@
   </head>
 
 <body>
+    <img src="{{ request.user.email | gravatar_url }}">
+    <header>
+      <a href="/board/dashboards/"><button type="button" >Back</button></a>
+      <a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
+    </header>
+
+<!-- 
     <div class="header">
       <a href="#default" class="logo">CompanyLogo</a>
       <div class="header-right">
@@ -22,7 +31,7 @@
         <a href="#contact">Contact</a>
         <a href="#about">About</a>
       </div>
-    </div>
+    </div> -->
     <a href="/board/dashboards/"><button type="button" >Back</button></a>
     
     <a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
@@ -157,10 +166,5 @@
       <p style="color:red;">{{ error }}</p>
     {% endif %}
 
-
-
-
-
 </body>
 </html>
-

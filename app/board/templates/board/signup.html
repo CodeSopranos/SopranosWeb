@@ -1,17 +1,36 @@
-<h2>Sign up Form</h2>
-<form method="post">
-  {% csrf_token %}
-  {% for field in form %}
-    <p>
-      {{ field.label_tag }}<br>
-      {{ field }}
-      {% if field.help_text %}
-        <small style="color: gray">{{ field.help_text }}</small>
-      {% endif %}
-      {% for error in field.errors %}
-        <p style="color: red">{{ error }}</p>
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html"; charset="utf-8"/>
+    <link href="{% static 'board/login.css' %}" rel="stylesheet">
+    <link href="{% static 'board/signup.css' %}" rel="stylesheet">
+</head>
+<body>
+<div id="form_wrapper" class="input_container">
+  <div id="form_left">
+    <img src="{% static 'board/img/signup.jpg' %}" alt="3d rjekich">
+ </div>
+ <div id="form_right">
+   <h1>Refister to Sopranos</h1>
+   <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+      <center>{{ field.label }}</center>
+        <div class="input_container">
+          {{ field | append_attr:"class: input_field" | append_attr:"autocomplete: off" }}
+       </div>
+       {% for error in field.errors %}
+         <a id="error_message">{{ error }}</a>
+       {% endfor %}
       {% endfor %}
-    </p>
-  {% endfor %}
-  <button type="submit">Sign up</button>
-</form>
+      <input type="submit" value="Sign Up" id='input_submit' class='input_field'>
+      <a href="/board/signin/">
+        <button type="button" id="signin" class='input_field'>Sign In</button>
+      </a>
+    </form>
+</div>
+</div>
+</body>
+</html>

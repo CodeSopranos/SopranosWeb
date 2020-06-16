@@ -3,16 +3,21 @@
 <html lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html"; charset="utf-8"/>
-    <link href="{% static 'board/css/login.css' %}" rel="stylesheet">
+    <link href="{% static 'board/login.css' %}" rel="stylesheet">
 </head>
 <body>
 <div id="form_wrapper" class="input_container">
   <div id="form_left">
-               <img src="{% static 'board/img/log_icon.jpg' %}" alt="3d rjekich">
-  </div>
+    <img src="{% static 'board/img/login.jpg' %}" alt="3d rjekich">
+</div>
+
 <div id="form_right">
   <h1>Sopranos Login</h1>
+  {% if error %}
+    <a id="error_message">{{ error }}</a>
+  {% endif %}
 <form method="post">
+
     {% csrf_token %}
     <div class="input_container">
       <input  placeholder="Login" type="text" name="username" id="field_email" class="input_field"/>
@@ -22,12 +27,13 @@
       <input  placeholder="Password" type="password" name="password"  id="field_password" class="input_field"/>
     </div>
     <input type="submit" value="Login" id='input_submit' class='input_field'>
-    {% if error %}
-    <p id="error_message">{{ error }}</p>
-    {% endif %}
-</form>
-</div>
+    <a href="/board/signup/">
+      <button type="button" id="signup" class='input_field'>Sign up</button>
+    </a>
 
+</form>
+
+</div>
 </div>
 </body>
 </html>

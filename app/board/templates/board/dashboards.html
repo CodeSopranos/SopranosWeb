@@ -1,9 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+<header>
+{% load gravatar_simple %}
+<img src="{{ request.user.email | gravatar_url }}">
 <a href="/board/signout/"><button type="button" >Sign out</button></a>
+</header>
 <h1> Dashboards </h1>
 {{ request.user.username }}
+{{ request.user.email }}
 <h3>Create new dashboard</h3>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src={% static 'board/js/slider.js' %}></script>

@@ -1,0 +1,10 @@
+build:
+  docker:
+    context: ./app
+    web: dockerfile.prod
+run:
+  web: gunicorn -w 5 sopranos_web.wsgi:application --bind 0.0.0.0:8000
+release:
+  image: web
+  command:
+    - python manage.py collectstatic --noinput
