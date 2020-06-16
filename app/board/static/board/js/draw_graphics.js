@@ -1,8 +1,6 @@
 function draw(id, keys, values) {
     var string = JSON.stringify(keys).replace(/&#x27;/gi, "");
     var yValue = string.split(',');
-    console.log(xValue)
-
     var xValue = JSON.parse(values);
 
     var data = [

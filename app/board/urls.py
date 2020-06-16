@@ -12,5 +12,5 @@ urlpatterns = [
     path('p/<int:dashboard_id>/', dashboard.view_dashboard, name='view_by_id'),
     path('<int:dashboard_id>/', dashboard.get_dashboard, name='dashboard_by_id'),
     path('<int:dashboard_id>/add_description', dashboard.add_description, name='add_description'),
-    path('<int:dashboard_id>/add_figure', figure.add_figure, name='add_figure')
+    path('<int:dashboard_id>/add_figure', figure.add_figure, name='add_figure'),
 ]

@@ -1,35 +1,96 @@
 {% load static %}
-
+<!DOCTYPE html>
+<html>
 <head>
-    <script src="{% static 'board/draw_graphics.js' %}"></script>
+    <script src="https://unpkg.com/web-animations-js@2.3.2/web-animations.min.js"></script>
+    <script src="https://unpkg.com/muuri@0.8.0/dist/muuri.min.js"></script>
+    <script src="{% static 'board/js/draw_graphics.js' %}"></script>
+    <script src="{% static 'board/js/grid.js' %}"></script>    <meta charset="utf-8" />
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'board/css/grid.css' %}" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{% static 'board/css/dashboard.css' %}" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{% static 'board/css/style.css' %}" media="screen" />
+
+  </head>
 
 <body>
-
+    <div class="header">
+      <a href="#default" class="logo">CompanyLogo</a>
+      <div class="header-right">
+        <a class="active" href="#home">Home</a>
+        <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+      </div>
+    </div>
     <a href="/board/dashboards/"><button type="button" >Back</button></a>
+    
     <a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
+    <!-- <section class="grid-demo">
 
-    <style>
-      #MoovingChart {
-        position: absolute;
-        z-index: 9;
-        background-color: #f1f1f1;
-        text-align: center;
-        border: 1px solid #d3d3d3;
-      } 
-      #Chart {
-        height: 600px;
-        width: 600px; 
-      }
-      #ChartHeader {
-        padding: 1px;
-        cursor: move;
-        z-index: 10;
-        background-color: #2196F3;
-        color: #fff;
-      }
-    </style>
+      <h2 class="section-title"><span>Grid Demo</span></h2>
+
+      <div class="controls cf">
+        <div class="control search">
+          <div class="control-icon">
+            <i class="material-icons">&#xE8B6;</i>
+          </div>
+          <input class="control-field search-field form-control " type="text" name="search" placeholder="Search..." />
+        </div>
+        <div class="control filter">
+          <div class="control-icon">
+            <i class="material-icons">&#xE152;</i>
+          </div>
+          <div class="select-arrow">
+            <i class="material-icons">&#xE313;</i>
+          </div>
+          <select class="control-field filter-field form-control">
+            <option value="" selected>All</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+          </select>
+        </div>
+        <div class="control sort">
+          <div class="control-icon">
+            <i class="material-icons">&#xE164;</i>
+          </div>
+          <div class="select-arrow">
+            <i class="material-icons">&#xE313;</i>
+          </div>
+          <select class="control-field sort-field form-control">
+            <option value="order" selected>Drag</option>
+            <option value="title">Title (drag disabled)</option>
+            <option value="color">Color (drag disabled)</option>
+          </select>
+        </div>
+        <div class="control layout">
+          <div class="control-icon">
+            <i class="material-icons">&#xE871;</i>
+          </div>
+          <div class="select-arrow">
+            <i class="material-icons">&#xE313;</i>
+          </div>
+          <select class="control-field layout-field form-control">
+            <option value="left-top" selected>Left Top</option>
+            <option value="left-top-fillgaps">Left Top (fill gaps)</option>
+            <option value="right-top">Right Top</option>
+            <option value="right-top-fillgaps">Right Top (fill gaps)</option>
+            <option value="left-bottom">Left Bottom</option>
+            <option value="left-bottom-fillgaps">Left Bottom (fill gaps)</option>
+            <option value="right-bottom">Right Bottom</option>
+            <option value="right-bottom-fillgaps">Right Bottom (fill gaps)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid"></div>
+
+      <div class="grid-footer">
+        <button class="add-more-items btn btn-primary"><i class="material-icons">&#xE145;</i>Add more items</button>
+      </div>
+
+    </section> -->
     <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
     <div>
     {% load markdown_extras %}
@@ -60,17 +121,15 @@
           <div>
               <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
               <div id="MoovingChart">
-                <div id="Chart"></div>
+                <!-- <div id="Chart"></div> -->
                 <div id="ChartHeader">Click here to move</div>
-                
-                <!-- <p>Move</p>
-                <p>this</p>
-                <p>DIV</p> -->
+
               </div>
               <script type="text/javascript">
                   var keys = "{{figure.data|get_keys}}";
                   var values = "{{figure.data|get_values}}"
-                  draw("Chart", keys, values);
+                  // draw("Chart", '[a, б, c, w, q]', "[1, 2, 3, 4, 5]");
+                  draw("Chart1", keys, values);
               </script>
 
               <script type="text/javascript">
@@ -78,15 +137,11 @@
               </script>
 
               <p>{{figure.data}}</p>
-              <!-- <p>{{figure.data|get_keys}}</p>
-              <p>{{figure.data|get_values}}</p> -->
+
           </div>
           {% endfor %}
       </div>
-      
-      
-      
-      
+
     <p>add new figure</p>
     <form  action="{% url 'add_figure' dashboard.id %}" method="POST">
       {% csrf_token %}
@@ -101,4 +156,11 @@
     {% if error %}
       <p style="color:red;">{{ error }}</p>
     {% endif %}
+
+
+
+
+
 </body>
+</html>
+
