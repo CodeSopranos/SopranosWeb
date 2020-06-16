@@ -1,5 +1,9 @@
-# SopranosWeb
-The secret  and legendary web project of @CodeSopranos team
+The secret  and legendary web project of @CodeSopranos team. <br>
+---
+- The project provides an opportunity to create **dashboards** based on parsed tags on social media or social networks e.g. *Twitter*. <br>
+- Dashboards contains **figures** that can describe some extracted informations from the parsed data. <br>
+- There is possibility to create public or private dashboard. Public dashboards will appear in feed page.<br>
+
 ## GET STARTED:
 [*setuping docker environment*](https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/)<br>
 [*how to mount disk D in toolbox*](https://headsigned.com/posts/mounting-docker-volumes-with-docker-toolbox-for-windows/)
@@ -18,22 +22,6 @@ Run docker in prod mode:
  1. ```docker-compose -f docker-compose.prod.yml up -d --build```<br>
  2. Then check dockerIP:1337/board/<br>
 
-
-**Критерии**<br>
-```
-Что должно быть в проектах:
-1. База данных, мастер-детальные отношения +
-2. Генерация страниц по шаблону +
-3. Пользовательский контент (POST-формы с валидацией) +
-4. Аутентификация пользователей, сессии (тема следующей лекции) +
-5. Работа приложения под управлением внешнего веб-сервера (nginx/apache/..., тоже будет в лекциях)
-6. Админка как минимум для тех частей приложения, 
-   которые не доступны для изменения через общий пользовательский интерфейс
-
-Идеи на доп. баллы (для тех, кто хочет 9-10):
-1. Логика клиентского уровня (JS, ajax/json и т.п.)
-2. Интеграция с внешними веб-сервисами
-3. Аутентификация через google/FB/twitter/etc.
-4. Мобильный клиент
-5. Дизайн страниц
-``` 
+**Team**:
+- Ilya Sedunov
+- Vadim Alperovich
