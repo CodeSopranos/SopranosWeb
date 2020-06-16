@@ -21,3 +21,7 @@ For example, get into db ```docker-compose exec db psql --username=admin --dbnam
 Run docker in prod mode:
  1. ```docker-compose -f docker-compose.prod.yml up -d --build```<br>
  2. Then check dockerIP:1337/board/<br>
+
+**Team**:
+- Ilya Sedunov
+- Vadim Alperovich
