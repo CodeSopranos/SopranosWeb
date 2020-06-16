@@ -13,17 +13,24 @@ from board.forms import SignupForm
 
 
 def sign_up(request):
+    form = SignupForm()
     if request.method == 'POST':
         logout(request)
         form = SignupForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('Username')
-            password = form.cleaned_data.get('Password')
-            email    = form.cleaned_data.get('Email')
-            user = authenticate(username=username, password=password, email=email)
-            login(request, user)
-            return HttpResponseRedirect(reverse('dashboards'))
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            password_again = form.cleaned_data['password_again']
+            email    = form.cleaned_data.get('email')
+            user = User.objects.filter(username=username).first()
+            if user is not None:
+                form.add_error('username', 'User already exists!')
+            elif password != password_again:
+                form.add_error('password_again', 'Passwords mismatch!')
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                return HttpResponseRedirect(reverse('dashboards'))
     return HttpResponse(render(request, 'board/signup.html', {'form': form}))
 
 
@@ -37,9 +44,11 @@ def sign_in(request):
         logout(request)
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password,
+                            backend='django.contrib.auth.backends.ModelBackend')
         if user is not None:
-            login(request, user)
+            login(request, user,
+                  backend='django.contrib.auth.backends.ModelBackend')
             redirect_url = request.GET.get('next')
             if redirect_url:
                 return redirect(request.GET['next'])
