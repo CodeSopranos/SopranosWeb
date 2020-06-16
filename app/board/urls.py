@@ -1,8 +1,9 @@
 from django.urls import path
-from .handlers import (feed, auth, dashboard, figure)
+from .handlers import (main, feed, auth, dashboard, figure)
 
 
 urlpatterns = [
+    path('', main.feed_redirect, name='main'),
     path('feed/', feed.list_dashboards, name='feed'),
     path('signout/', auth.sign_out, name='signout'),
     path('signin/', auth.sign_in, name='signin'),
