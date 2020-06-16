@@ -90,10 +90,10 @@ def add_description(request, dashboard_id):
     return HttpResponseRedirect(reverse('dashboard_by_id',
                                 kwargs={'dashboard_id': dashboard_id}))
 
-@register.filter
+# @register.filter
 def get_keys(dictionary):
     return list(dictionary.keys())
 
-@register.filter
+# @register.filter
 def get_values(dictionary):
     return [dictionary[k] for k in dictionary]
