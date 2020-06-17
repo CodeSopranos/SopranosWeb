@@ -1,17 +1,13 @@
 function draw(id, keys, values) {
-    var string = JSON.stringify(keys).replace(/&#x27;/gi, "");
-    var yValue = string.split(',');
-    var xValue = JSON.parse(values);
-
+    console.log("keys = " + keys, "values = " + values);
     var data = [
       {
-        x: xValue,
-        y: yValue,
+        x: keys,
+        y: values,
         type: 'bar',
         orientation: 'h'
       }
     ];
-    console.log(id)
     Plotly.newPlot(id, data);
 }
 

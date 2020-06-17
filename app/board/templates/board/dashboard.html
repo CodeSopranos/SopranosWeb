@@ -1,5 +1,6 @@
 {% load static %}
 {% load gravatar_simple %}
+{% load utils %}
 
 <!DOCTYPE html>
 <html>
@@ -35,7 +36,7 @@
     <a href="/board/dashboards/"><button type="button" >Back</button></a>
     
     <a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
-    <!-- <section class="grid-demo">
+    <section class="grid-demo">
 
       <h2 class="section-title"><span>Grid Demo</span></h2>
 
@@ -96,10 +97,45 @@
       <div class="grid"></div>
 
       <div class="grid-footer">
-        <button class="add-more-items btn btn-primary"><i class="material-icons">&#xE145;</i>Add more items</button>
+        <button class="add-more-items btn btn-primary" onclick="addItemChart();"><i class="material-icons">&#xE145;</i>Add chart item</button>
+        <SELECT>
+          <OPTION Value="Bar chart">Bar chart</OPTION>
+        </SELECT>
       </div>
 
-    </section> -->
+    {% for figure in figures %}
+    <script type="text/javascript">
+        var decodeHTML = function (html) {
+          var txt = document.createElement('textarea');
+          txt.innerHTML = html;
+          return txt.value;
+        };
+        var sentAnalysis;
+        var freqAnalysis;
+        if ('{{figure.type}}' == 'Frequency analysis') {
+          var string = JSON.parse(decodeHTML(JSON.stringify('{{figure.data}}')));
+          freqAnalysis = string.slice(1,-1).split(",");
+        } else if ('{{figure.type}}' == 'Sentiment analysis') {
+          sentAnalysis = JSON.parse(decodeHTML(JSON.stringify('{{figure.data}}')));
+        }
+
+        function addItemChart() {
+            var ind = Object.keys(freqAnalysis);
+            var id = "";
+            var values = [], keys = [];
+            for (k in ind) {
+              values.push(freqAnalysis[k].replace(/[^0-9]/gi, ''))
+              keys.push(freqAnalysis[k].replace(/[^а-яa-zA-ZА-Я]/gi, ''))
+            }
+            process(id, keys, values);
+            draw(id, keys, values);
+
+        }
+
+    </script>
+    {% endfor %}
+
+    </section>
     <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
     <div>
     {% load markdown_extras %}
@@ -137,13 +173,8 @@
               <script type="text/javascript">
                   var keys = "{{figure.data|get_keys}}";
                   var values = "{{figure.data|get_values}}"
-                  // draw("Chart", '[a, б, c, w, q]', "[1, 2, 3, 4, 5]");
-                  draw("Chart1", keys, values);
               </script>
 
-              <script type="text/javascript">
-                  dragElement(document.getElementById("MoovingChart"));
-              </script>
 
               <p>{{figure.data}}</p>
 

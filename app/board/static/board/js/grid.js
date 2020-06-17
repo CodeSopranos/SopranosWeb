@@ -1,3 +1,14 @@
+var id_glob = "";
+var xValue = "";
+var yValue = "";
+
+function set_params(id, keys, values) {
+    id_glob = id;
+    xValue = keys;
+    yValue = values;
+    console.log("xVal = " + xValue, " yVal = " + yValue);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 
     //
@@ -142,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addItems() {
 
         // Generate new elements.
-        var newElems = generateElements(5);
+        var newElems = generateElements(1);
 
         // Set the display of the new elements to "none" so it will be hidden by
         // default.
@@ -161,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
         grid.sort(sortFieldValue === 'title' ? compareItemTitle : compareItemColor);
         dragOrder = dragOrder.concat(newItems);
         }
-
+        // process();
         // Finally filter the items.
         filter();
 
@@ -219,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<div class="item h' + height + ' w' + width + ' ' + color + '" data-id="' + id + '" data-color="' + color + '" data-title="' + title + '">' +
                     '<div class="item-content">' +
                     '<div class="card">' +
-                        '<div id="Chart' + i + '">' + '</div>' +
+                        '<div id=' + id_glob + '>' + '</div>' +
                         '<div class="card-id">' + id + '</div>' +
                         '<div class="card-remove"><i class="material-icons">&#xE5CD;</i></div>' +
                     '</div>' +
@@ -228,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function () {
             
             itemElem.innerHTML = itemTemplate;
             ret.push(itemElem.firstChild);
-
         }
 
         return ret;
@@ -302,7 +312,6 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     // Fire it up!
     //
-
-    // initDemo();
+    initDemo();
 
 });
