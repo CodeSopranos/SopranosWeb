@@ -1,26 +1,61 @@
-<header>
-  {% load gravatar_simple %}
-  <img src="{{ request.user.email | gravatar_url }}">
-</header>
-{% if request.user.is_authenticated %}
-  <a href="/board/dashboards/"><button type="button" >Back</button></a>
-  {% if request.user == dashboard.owner %}
-    <a href="{% url 'dashboard_by_id' dashboard.id %}"><button type="button" >Edit</button></a>
+{% load utils %}
+{% load gravatar_simple %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html"; charset="utf-8"/>
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js"></script>
+    <script src="{% static 'board/js/draw_graphics.js' %}"></script>
+    <script src="{% static 'board/js/charts.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <style>
+    html, body, #Wordcloud {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <header>
+    <img src="{{ request.user.email | gravatar_url }}">
+  </header>
+  {% if request.user.is_authenticated %}
+    <a href="/board/dashboards/"><button type="button" >Back</button></a>
+    {% if request.user == dashboard.owner %}
+      <a href="{% url 'dashboard_by_id' dashboard.id %}"><button type="button" >Edit</button></a>
+    {% endif %}
+  {% else %}
+    <a href="/board/feed/"><button type="button" >Back</button></a>
   {% endif %}
-{% else %}
-  <a href="/board/feed/"><button type="button" >Back</button></a>
-{% endif %}
-<h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
-<div>
-{% load markdown_extras %}
-{{ dashboard.description | markdown | safe }}
-</div>
-<div>
-<b>Figures</b>
-    {% for figure in figures %}
-    <div>
-        <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
-        <p>{{figure.data}}</p>
-    </div>
-    {% endfor %}
-</div>
+  <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
+  <div>
+  {% load markdown_extras %}
+  {{ dashboard.description | markdown | safe }}
+  </div>
+  <div>
+  <b>Figures</b>
+      {% for figure in figures %}
+      <div>
+          <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
+          <p>{{figure.data | sort_by_value}}</p>
+          <script type="text/javascript">
+              if ("{{figure.type}}" == 'Frequency analysis') {
+                freqChart('{{figure.data | sort_by_value}}');
+              }
+          </script>
+          <div id="{{figure.type}}">
+              <script type="text/javascript">
+                  if ("{{figure.type}}" == 'Frequency analysis') {
+                    draw("{{figure.type}}", values, keys);
+                  }
+              </script>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</body>
+</html>

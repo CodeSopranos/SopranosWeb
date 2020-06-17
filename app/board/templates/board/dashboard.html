@@ -6,6 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js"></script>
     <script src="https://unpkg.com/web-animations-js@2.3.2/web-animations.min.js"></script>
     <script src="https://unpkg.com/muuri@0.8.0/dist/muuri.min.js"></script>
     <script src="{% static 'board/js/draw_graphics.js' %}"></script>
@@ -25,6 +27,93 @@
       <a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
     </header>
 
+    {% for figure in figures %}
+    <script type="text/javascript">
+        var sentAnalysis;
+        var freqAnalysis;
+        var decodeHTML = function (html) {
+          var txt = document.createElement('textarea');
+          txt.innerHTML = html;
+          return txt.value;
+        };
+        if ('{{figure.type}}' == 'Frequency analysis') {
+          var string = JSON.parse(decodeHTML(JSON.stringify('{{figure.data}}')));
+          freqAnalysis = string.slice(1,-1).split(",");
+          set_id_frec("freqChart");
+        } else if ('{{figure.type}}' == 'Sentiment analysis') {
+          sentAnalysis = JSON.parse(decodeHTML(JSON.stringify('{{figure.data}}')));
+        }
+
+        function addItemChart() {
+            var ind = Object.keys(freqAnalysis);
+            var values = [], keys = [];
+            for (k in ind) {
+              values.push(freqAnalysis[k].replace(/[^0-9]/gi, ''));
+              keys.push(freqAnalysis[k].replace(/[^а-яa-zA-ZА-ЯёЁ]/gi, ''));
+            }
+            set_params(keys, values);
+            draw("freqChart", keys, values);
+        }
+
+    </script>
+
+    {% endfor %}
+
+    </section>
+
+    <p>add description</p>
+    <form  action="{% url 'add_description' dashboard.id %}" method="POST">
+      {% csrf_token %}
+    <textarea name="description" rows="10" cols="40">{{ dashboard.description }}</textarea>
+    <input type="submit" value="Commit"/>
+    </form>
+
+    <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
+    <div>
+    {{ dashboard.description | markdown | safe }}
+    </div>
+
+    <h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
+      <h4>
+        <ul>
+            {% for article in dashboard_data %}
+            <li>
+                <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }} </b><br />
+            </li>
+            {% endfor %}
+        </ul>
+      </h4>
+      
+      <div>
+      <b>Figures</b>
+          {% for figure in figures %}
+          <div>
+              <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
+              <p>{{figure.data}}</p>
+
+          </div>
+          {% endfor %}
+      </div>
+
+    <p>add new figure</p>
+    <form  action="{% url 'add_figure' dashboard.id %}" method="POST">
+      {% csrf_token %}
+    <select name="figure_type" size="4">
+        <option>Frequency analysis</option>
+        <option>Wordcloud</option>
+        <option>Correlation heatmap</option>
+        <option>Sentiment analysis</option>
+    </select><br>
+        <input type="submit" value="Add"/>
+    </form>
+    {% if error %}
+      <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+</body>
+</html>
+
+
 <!-- 
     <div class="header">
       <a href="#default" class="logo">CompanyLogo</a>
@@ -34,7 +123,7 @@
         <a href="#about">About</a>
       </div>
     </div> -->
-    <a href="/board/dashboards/"><button type="button" >Back</button></a>
+    <!-- <a href="/board/dashboards/"><button type="button" >Back</button></a>
     
     <a href="{% url 'view_by_id' dashboard.id %}"><button type="button" >View</button></a>
     <section class="grid-demo">
@@ -100,104 +189,4 @@
       <div class="grid-footer">
         <button class="add-more-items btn btn-primary" onclick="addItemChart();"><i class="material-icons">&#xE145;</i>Add chart item</button>
         <button class="add-more-items btn btn-primary" onclick="addTextItem();"><i class="material-icons">&#xE145;</i>Add text item</button>
-      </div>
-
-    {% for figure in figures %}
-    <script type="text/javascript">
-        var sentAnalysis;
-        var freqAnalysis;
-        var decodeHTML = function (html) {
-          var txt = document.createElement('textarea');
-          txt.innerHTML = html;
-          return txt.value;
-        };
-        if ('{{figure.type}}' == 'Frequency analysis') {
-          var string = JSON.parse(decodeHTML(JSON.stringify('{{figure.data}}')));
-          freqAnalysis = string.slice(1,-1).split(",");
-          set_id_frec("freqChart");
-        } else if ('{{figure.type}}' == 'Sentiment analysis') {
-          sentAnalysis = JSON.parse(decodeHTML(JSON.stringify('{{figure.data}}')));
-        }
-
-        function addItemChart() {
-            var ind = Object.keys(freqAnalysis);
-            var values = [], keys = [];
-            for (k in ind) {
-              values.push(freqAnalysis[k].replace(/[^0-9]/gi, ''));
-              keys.push(freqAnalysis[k].replace(/[^а-яa-zA-ZА-ЯёЁ]/gi, ''));
-            }
-            set_params(keys, values);
-            draw("freqChart", keys, values);
-        }
-
-        function addTextItem() {
-
-        }
-    </script>
-
-    {% endfor %}
-
-    </section>
-
-    <p>add description</p>
-    <form  action="{% url 'add_description' dashboard.id %}" method="POST">
-      {% csrf_token %}
-    <textarea name="description" rows="10" cols="40">{{ dashboard.description }}</textarea>
-    <input type="submit" value="Commit"/>
-    </form>
-
-    <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
-    <div>
-    {{ dashboard.description | markdown | safe }}
-    </div>
-
-    <h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
-      <h4>
-        <ul>
-            {% for article in dashboard_data %}
-            <li>
-                <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }} </b><br />
-            </li>
-            {% endfor %}
-        </ul>
-      </h4>
-      
-      <div>
-      <b>Figures</b>
-          {% for figure in figures %}
-          <div>
-              <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
-              <div id="MoovingChart">
-                <!-- <div id="Chart"></div> -->
-                <div id="ChartHeader">Click here to move</div>
-
-              </div>
-              <script type="text/javascript">
-                  var keys = "{{figure.data|get_keys}}";
-                  var values = "{{figure.data|get_values}}"
-              </script>
-
-
-              <p>{{figure.data}}</p>
-
-          </div>
-          {% endfor %}
-      </div>
-
-    <p>add new figure</p>
-    <form  action="{% url 'add_figure' dashboard.id %}" method="POST">
-      {% csrf_token %}
-    <select name="figure_type" size="4">
-        <option>Frequency analysis</option>
-        <option>Wordcloud</option>
-        <option>Correlation heatmap</option>
-        <option>Sentiment analysis</option>
-    </select><br>
-        <input type="submit" value="Add"/>
-    </form>
-    {% if error %}
-      <p style="color:red;">{{ error }}</p>
-    {% endif %}
-
-</body>
-</html>
+      </div> -->

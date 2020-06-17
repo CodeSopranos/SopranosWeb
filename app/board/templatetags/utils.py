@@ -12,3 +12,7 @@ def get_keys(dictionary):
 @register.filter
 def get_values(dictionary):
     return [dictionary[k] for k in dictionary]
+
+@register.filter
+def sort_by_value(dictionary):
+    return dict(sorted(dictionary.items(), key=lambda kv: kv[1]))
