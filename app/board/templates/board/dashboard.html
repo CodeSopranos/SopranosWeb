@@ -115,20 +115,20 @@
         if ('{{figure.type}}' == 'Frequency analysis') {
           var string = JSON.parse(decodeHTML(JSON.stringify('{{figure.data}}')));
           freqAnalysis = string.slice(1,-1).split(",");
+          set_id_frec("freqChart");
         } else if ('{{figure.type}}' == 'Sentiment analysis') {
           sentAnalysis = JSON.parse(decodeHTML(JSON.stringify('{{figure.data}}')));
         }
 
         function addItemChart() {
             var ind = Object.keys(freqAnalysis);
-            var id = "";
             var values = [], keys = [];
             for (k in ind) {
               values.push(freqAnalysis[k].replace(/[^0-9]/gi, ''))
               keys.push(freqAnalysis[k].replace(/[^а-яa-zA-ZА-Я]/gi, ''))
             }
-            process(id, keys, values);
-            draw(id, keys, values);
+            set_params(keys, values);
+            draw("freqChart", keys, values);
 
         }
 

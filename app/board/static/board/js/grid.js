@@ -1,9 +1,14 @@
-var id_glob = "";
-var xValue = "";
-var yValue = "";
+var glob_string = "";
+var xValue;
+var yValue;
 
-function set_params(id, keys, values) {
-    id_glob = id;
+function set_id_frec(id) {
+    glob_string = '<div id="' + id + '" class="js-plotly-plot">' + '</div>';
+
+    console.log("set id = ", glob_string);
+}
+
+function set_params(keys, values) {
     xValue = keys;
     yValue = values;
     console.log("xVal = " + xValue, " yVal = " + yValue);
@@ -230,13 +235,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<div class="item h' + height + ' w' + width + ' ' + color + '" data-id="' + id + '" data-color="' + color + '" data-title="' + title + '">' +
                     '<div class="item-content">' +
                     '<div class="card">' +
-                        '<div id=' + id_glob + '>' + '</div>' +
+                        glob_string +
                         '<div class="card-id">' + id + '</div>' +
                         '<div class="card-remove"><i class="material-icons">&#xE5CD;</i></div>' +
                     '</div>' +
                     '</div>' +
                 '</div>';
-            
+            glob_string = "";
             itemElem.innerHTML = itemTemplate;
             ret.push(itemElem.firstChild);
         }

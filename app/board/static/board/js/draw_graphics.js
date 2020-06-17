@@ -1,5 +1,5 @@
 function draw(id, keys, values) {
-    console.log("keys = " + keys, "values = " + values);
+    console.log("keys = " + keys, "values = " + values, " id = ", id);
     var data = [
       {
         x: keys,
