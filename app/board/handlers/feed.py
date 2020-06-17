@@ -13,6 +13,13 @@ from board.models import Dashboard, Figure
 
 
 def list_dashboards(request, additional_context={}):
-    boards  = Dashboard.objects.all().filter(private=False)
-    context = {'dashboards': boards, **additional_context}
+    boards  = Dashboard.objects.all().filter(private=False).order_by('-created_at')
+    if request.user.is_authenticated:
+        user = get_object_or_404(User, pk=request.user.id)
+        total_boards = len(user.dashboard_set.order_by('-created_at'))
+    else:
+        total_boards = 0
+    context = {'dashboards': boards,
+               'total_boards': total_boards,
+               **additional_context}
     return HttpResponse(render(request, 'board/feed.html', context))

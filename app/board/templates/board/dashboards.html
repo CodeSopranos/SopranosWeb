@@ -2,15 +2,21 @@
 {% load gravatar_simple %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <link href="{% static 'board/feed.css' %}" rel="stylesheet">
+   <link href="{% static 'board/dashboards.css' %}" rel="stylesheet">
+   <!-- <script src={% static 'board/js/popup.js' %}></script> -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+   <script src={% static 'board/js/slider.js' %}></script>
 </head>
 <body>
   <div class="navbar">
     <a href="/board/feed/" >Feed</a>
     <a href="/board/dashboards/" class="active">My dashboards</a>
+    <a id="myBtn">Add new dashboard</a>
     {% if request.user.is_authenticated %}
     <a class="right" href="/board/signout/">Sign out</a>
     <a  class="right" id="nav-avatar">
@@ -22,7 +28,49 @@
     <a class="right" href="/board/signup/">Sign up</a>
     {% endif %}
   </div>
+
+  <div id="myModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h2>Create dashboard</h2>
+      </div>
+      <div class="modal-body-form">
+      <form action="create_dashboard/" method="POST">
+        {% csrf_token %}
+           <div class="input_container">
+             <b>Name</b>
+             <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}" class="input_field"/><br>
+           </div>
+           <div class="input_container">
+             <b>Theme</b>
+             <input type="text" name="theme" maxlength="40" size="30" placeholder="e.g. #covid19" value="{{ theme }}"  class="input_field"/><br>
+           </div>
+           <div class="input_container" id="slider">
+             <b style="margin-right:10px">Info amount</b>
+             <input type="range" id="rangeInput" min="1" max="7"  value="2" name="n_articles">
+             <b style="color:#7200D0;margin-left:10px"><label id="rangeText"/></b></p>
+           </div>
+           <div class="input_container">
+             <b>Private</b><input type="checkbox" name="is_private">
+           </div>
+            <input type="submit" value="Create" id="input_submit" class="input_field"/>
+           {% if error %}
+             <p>{{ error }}</p>
+           {% endif %}
+       </form>
+     </div>
+    </div>
+    <div class="modal-footer">
+      <!-- <h3>Modal Footer</h3> -->
+    </div>
+  </div>
+  <div class="loader"></div>
+</div>
+
 <div class="row">
+
   <div class="side">
       <div class="profile-section">
         <div class="left">
@@ -31,43 +79,37 @@
         </div>
         <div class="right">
           <img  src="{{ request.user.email | gravatar_url }}">
-          <a class="total-dashboards">10<b style="font-size:14px;color:gray;">dashboards</b><a>
+          <a class="total-dashboards">{{ total_boards }}<b style="font-size:14px;color:gray;">dashboards</b><a>
         </div>
       </div>
-  <div class="main">
-  <h3>Create new dashboard</h3>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src={% static 'board/js/slider.js' %}></script>
-  <form action="create_dashboard/" method="POST">
-      {% csrf_token %}
-      <div>
-        <label for="board_name">Name</label>
-        <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}"/><br>
-      </div>
-      <div>
-        <label for="theme">Theme</label>
-        <input type="text" name="theme" maxlength="40" size="30" placeholder="e.g. Donald Trump" value="{{ theme }}"/><br>
-      </div>
-      <div>
-          <p><input type="range" id="rangeInput" min="1" max="7"  value="2" name="n_articles">
-             Info <b><label id="rangeText"/></b></p>
-      </div>
-      <input type="checkbox" name="is_private">Private<Br>
-      <input type="submit" value="Create"/>
-  </form>
-  {% if error %}
-    <p >{{ error }}</p>
-  {% endif %}
+    </div>
 
-  <h2>
-     <ul>
-         {% for board in dashboards %}
-             <li>Board <a href="{% url 'view_by_id' board.id %}">{{board.name}}</a>
-               <a href="{% url 'dashboard_by_id' board.id %}">edit</a> </li>
-         {% endfor %}
+<script type="text/javascript">
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("myBtn");
+  var span = document.getElementsByClassName("close")[0];
+
+
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+  <div class="main">
+        {% for board in dashboards %}
+      <div class="card">
+        <h2><a href="{% url 'view_by_id' board.id %}">{{board.name}}</a></h2>
+        <a href="{% url 'dashboard_by_id' board.id %}">edit</a> </li>
+      </div>
+     {% endfor %}
      </ul>
-  </h2>`
-</div>
 </div>
 </div>
 <body>
