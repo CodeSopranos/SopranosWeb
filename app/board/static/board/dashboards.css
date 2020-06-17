@@ -166,7 +166,7 @@ body {
     background-color: var(--submit_hover);
     /* simple color transition on hover */
     transition: background-color,
-        1s;
+    1s;
     cursor: pointer;
 }
 
@@ -186,15 +186,36 @@ body {
   margin: 0;
 }
 
+
+.loader-layout{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+
 .loader {
+  position: absolute;
+  left: calc(50% - 50px);
+  top:60%;
   border: 16px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid #3498db;
+  border-top: 16px solid #6600ff;
   width: 120px;
   height: 120px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }
+
+
 
 /* Safari */
 @-webkit-keyframes spin {
