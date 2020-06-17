@@ -55,18 +55,32 @@
            <div class="input_container">
              <b>Private</b><input type="checkbox" name="is_private">
            </div>
-            <input type="submit" value="Create" id="input_submit" class="input_field"/>
+            <input type="submit" value="Create"  class="input_field" id="input_submit"/>
            {% if error %}
              <p>{{ error }}</p>
+             <script>
+               var modal = document.getElementById("myModal");
+               modal.style.display = "block";
+             </script>
            {% endif %}
        </form>
+         <a id="load_butt">Loader</a>
      </div>
     </div>
     <div class="modal-footer">
       <!-- <h3>Modal Footer</h3> -->
     </div>
   </div>
-  <div class="loader"></div>
+  <div class="loader-layout" id="loader-layout">
+    <div class="loader" id="loader"></div>
+  </div>
+  <script>
+    var loader = document.getElementById("loader-layout");
+    var lbtn = document.getElementById("input_submit");
+    lbtn.onclick = function() {
+      loader.style.display = "block";
+    }
+  </script>
 </div>
 
 <div class="row">
