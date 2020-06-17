@@ -9,11 +9,11 @@
       --icon_color:#6b6b6b;
   }
 
-  * {
+* {
       padding: 0;
       margin: 0;
       box-sizing: border-box;
-  }
+}
 
 body {
     height: 100vh;

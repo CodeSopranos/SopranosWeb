@@ -1,44 +1,74 @@
 {% load static %}
+{% load gravatar_simple %}
 <!DOCTYPE html>
 <html lang="en">
-<header>
-{% load gravatar_simple %}
-<img src="{{ request.user.email | gravatar_url }}">
-<a href="/board/signout/"><button type="button" >Sign out</button></a>
-</header>
-<h1> Dashboards </h1>
-{{ request.user.username }}
-{{ request.user.email }}
-<h3>Create new dashboard</h3>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src={% static 'board/js/slider.js' %}></script>
-<form action="create_dashboard/" method="POST">
-    {% csrf_token %}
-    <div>
-      <label for="board_name">Name</label>
-      <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}"/><br>
-    </div>
-    <div>
-      <label for="theme">Theme</label>
-      <input type="text" name="theme" maxlength="40" size="30" placeholder="e.g. Donald Trump" value="{{ theme }}"/><br>
-    </div>
-    <div>
-        <p><input type="range" id="rangeInput" min="1" max="7"  value="2" name="n_articles">
-           Info <b><label id="rangeText"/></b></p>
-    </div>
-    <input type="checkbox" name="is_private">Private<Br>
-    <input type="submit" value="Create"/>
-</form>
-{% if error %}
-<p style="color:red;">{{ error }}</p>
-{% endif %}
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link href="{% static 'board/feed.css' %}" rel="stylesheet">
+</head>
+<body>
+  <div class="navbar">
+    <a href="/board/feed/" >Feed</a>
+    <a href="/board/dashboards/" class="active">My dashboards</a>
+    {% if request.user.is_authenticated %}
+    <a class="right" href="/board/signout/">Sign out</a>
+    <a  class="right" id="nav-avatar">
+      <img class="nav-avatar" src="{{ request.user.email  | gravatar_url }}">
+      <p class="nav-username">{{request.user.username}}<p>
+    </a>
+    {% else %}
+    <a class="right" href="/board/signin/">Sign in</a>
+    <a class="right" href="/board/signup/">Sign up</a>
+    {% endif %}
+  </div>
+<div class="row">
+  <div class="side">
+      <div class="profile-section">
+        <div class="left">
+          <h2>{{request.user.username}}</h2>
+          <h5>{{request.user.email}}</h5>
+        </div>
+        <div class="right">
+          <img  src="{{ request.user.email | gravatar_url }}">
+          <a class="total-dashboards">10<b style="font-size:14px;color:gray;">dashboards</b><a>
+        </div>
+      </div>
+  <div class="main">
+  <h3>Create new dashboard</h3>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src={% static 'board/js/slider.js' %}></script>
+  <form action="create_dashboard/" method="POST">
+      {% csrf_token %}
+      <div>
+        <label for="board_name">Name</label>
+        <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}"/><br>
+      </div>
+      <div>
+        <label for="theme">Theme</label>
+        <input type="text" name="theme" maxlength="40" size="30" placeholder="e.g. Donald Trump" value="{{ theme }}"/><br>
+      </div>
+      <div>
+          <p><input type="range" id="rangeInput" min="1" max="7"  value="2" name="n_articles">
+             Info <b><label id="rangeText"/></b></p>
+      </div>
+      <input type="checkbox" name="is_private">Private<Br>
+      <input type="submit" value="Create"/>
+  </form>
+  {% if error %}
+    <p >{{ error }}</p>
+  {% endif %}
 
-<h2>
-   <ul>
-       {% for board in dashboards %}
-           <li>Board: <a href="{% url 'view_by_id' board.id %}">{{board.name}}</a>
-             <a href="{% url 'dashboard_by_id' board.id %}">edit</a> </li>
-       {% endfor %}
-   </ul>
-</h2>
+  <h2>
+     <ul>
+         {% for board in dashboards %}
+             <li>Board <a href="{% url 'view_by_id' board.id %}">{{board.name}}</a>
+               <a href="{% url 'dashboard_by_id' board.id %}">edit</a> </li>
+         {% endfor %}
+     </ul>
+  </h2>`
+</div>
+</div>
+</div>
+<body>
 </html>
