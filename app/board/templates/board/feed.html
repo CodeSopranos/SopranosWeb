@@ -1,12 +1,83 @@
-<header>
-  {% load gravatar_simple %}
-  <img src="{{ request.user.email | gravatar_url }}">
-</header>
-<a href="/board/signin/"><button type="button" >Sign In</button></a>
-<a href="/board/signup/"><button type="button" >Sign Up</button></a>
+{% load gravatar_simple %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-   <ul>
-       {% for board in dashboards %}
-           <li><h2>{{board.owner}}: <a href="{% url 'view_by_id' board.id %}">{{board.name}}</a></h2></li>
-       {% endfor %}
-   </ul>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link href="{% static 'board/feed.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="header">
+  <h1>Sopranos feed</h1>
+  <p>Dashboards. <b>Analytics.</b> Cringe.</p>
+</div>
+
+<div class="navbar">
+  <a href="/board/feed/" class="active">Feed</a>
+  <a href="/board/dashboards/">My dashboards</a>
+  {% if request.user.is_authenticated %}
+  <a class="right" href="/board/signout/">Sign out</a>
+  <a  class="right" id="nav-avatar">
+    <img class="nav-avatar" src="{{ request.user.email  | gravatar_url }}">
+    <p class="nav-username">{{request.user.username}}<p>
+  </a>
+  {% else %}
+  <a class="right" href="/board/signin/">Sign in</a>
+  <a class="right" href="/board/signup/">Sign up</a>
+  {% endif %}
+</div>
+
+<div class="row">
+  <div class="side">
+    {% if request.user.is_authenticated %}
+      <div class="profile-section">
+        <div class="left">
+          <h2>{{request.user.username}}</h2>
+          <h5>{{request.user.email}}</h5>
+        </div>
+        <div class="right">
+          <img  src="{{ request.user.email | gravatar_url }}">
+          <a class="total-dashboards">{{ total_boards }}<b style="font-size:14px;color:gray;">dashboards</b><a>
+        </div>
+      </div>
+    {% else %}
+    <div class="guest-notify">
+      <h2>Welcome to Sopranos, stranger!</h2>
+      <p>Get <b><a href="/board/signup/">membership</a></b> and create your first dashboard 👽</p>
+    </div>
+    {% endif %}
+    <div class="fakeimg" style="height:200px;">Image</div>
+    <h3>More Text</h3>
+    <p>Lorem ipsum dolor sit ame.</p>
+    <div class="fakeimg" style="height:60px;">Image</div><br>
+  </div>
+  <div class="main">
+    <center><h2>Recent dashboards</h2></center>
+    {% for board in dashboards %}
+      <div class="card">
+         <h2><a href="{% url 'view_by_id' board.id %}">{{board.name}}</a></h2>
+         <div class="card-info">
+             <img  src="{{ board.owner.email | gravatar_url }}">
+             {{board.owner}}, created {{board.created_at}}
+          </div>
+        <div class="card-theme">
+          <p><b>tags:</b> {{board.theme}}<p>
+        </div>
+        </div>
+
+    {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <h2>Footer</h2>
+  <h3>...or not о_0</h3>
+</div>
+
+</body>
+</html>

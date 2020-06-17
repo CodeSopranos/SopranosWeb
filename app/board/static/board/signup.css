@@ -1,0 +1,86 @@
+:root {
+      --body_gradient_left:#000099;
+      --body_gradient_right: #99ccff;
+      --form_bg: #ffffff;
+      --input_bg: #E5E5E5;
+      --input_hover:#eaeaea;
+      --submit_bg: #1FCC44;
+      --submit_hover: #40e263;
+      --icon_color:#6b6b6b;
+  }
+
+* {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    font-family: 'Roboto',
+    sans-serif;
+    font-weight: bold;
+    background-image: linear-gradient(to right, var(--body_gradient_left), var(--body_gradient_right));
+    display:flex;
+}
+
+#form_left img {
+    width: 450px;
+    height: 450px;
+}
+
+.input_field{
+  color: black;
+}
+.input_field:hover{
+  color: white;
+}
+
+.input_container{
+    height: 60px;
+    /* make the borders more round */
+    border-radius: 10px;
+    width: 100%;
+    margin: 10px;
+}
+
+.input_container {
+    background-color: var(--input_hover);
+}
+
+.input_container:hover,
+.input_container:focus {
+    border-radius: 30px;
+    background-color: #999999;
+}
+
+#signin {
+    /* submit button has a different color and different padding */
+    margin-top: 10px;
+    font-weight: bold;
+    color: lightgray;
+    text-transform: uppercase;
+}
+#signin:hover {
+    color: gray;
+    text-transform: uppercase;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: None;
+  -webkit-text-fill-color: None;
+  -webkit-box-shadow: None;
+  transition: background-color 5000s ease-in-out 0s;
+  height: 60px;
+  border-radius: 10px;
+  width: 100%;
+  margin:0;
+}

@@ -19,8 +19,9 @@ from board.transport.Twiparser import TWITTERparser
 def show_dashboards(request, additional_context={}):
     user = get_object_or_404(User, pk=request.user.id)
     boards = user.dashboard_set.order_by('-created_at')
-    context = {'dashboards': boards, **additional_context}
+    context = {'dashboards': boards, 'total_boards': len(boards), **additional_context}
     return HttpResponse(render(request, 'board/dashboards.html', context))
+
 
 def view_dashboard(request, dashboard_id, additional_context={}):
     dashboard = get_object_or_404(Dashboard, pk=dashboard_id)
@@ -30,6 +31,7 @@ def view_dashboard(request, dashboard_id, additional_context={}):
                 'figures': figures,
                 **additional_context}
     return HttpResponse(render(request, 'board/view_dashboard.html', context))
+
 
 @login_required(login_url='/board/signin/')
 def get_dashboard(request, dashboard_id, additional_context={}):
