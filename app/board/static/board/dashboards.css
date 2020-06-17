@@ -1,0 +1,21 @@
+:root {
+      --body_gradient_left:#7200D0;
+      --body_gradient_right: #C800C1;
+      --form_bg: #ffffff;
+      --input_bg: #E5E5E5;
+      --input_hover:#eaeaea;
+      --submit_bg: #1FCC44;
+      --submit_hover: #40e263;
+      --icon_color:#6b6b6b;
+  }
+* {
+  box-sizing: border-box;
+}
+
+/* Style the body */
+body {
+  font-family: Roboto,
+  sans-serif;
+  margin: 0;
+  background: #f1f1f1;
+}
