@@ -241,7 +241,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     '</div>' +
                     '</div>' +
                 '</div>';
-            glob_string = "";
             itemElem.innerHTML = itemTemplate;
             ret.push(itemElem.firstChild);
         }

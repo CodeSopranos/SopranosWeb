@@ -1,6 +1,7 @@
 {% load static %}
 {% load gravatar_simple %}
 {% load utils %}
+{% load markdown_extras %}
 
 <!DOCTYPE html>
 <html>
@@ -98,20 +99,18 @@
 
       <div class="grid-footer">
         <button class="add-more-items btn btn-primary" onclick="addItemChart();"><i class="material-icons">&#xE145;</i>Add chart item</button>
-        <SELECT>
-          <OPTION Value="Bar chart">Bar chart</OPTION>
-        </SELECT>
+        <button class="add-more-items btn btn-primary" onclick="addTextItem();"><i class="material-icons">&#xE145;</i>Add text item</button>
       </div>
 
     {% for figure in figures %}
     <script type="text/javascript">
+        var sentAnalysis;
+        var freqAnalysis;
         var decodeHTML = function (html) {
           var txt = document.createElement('textarea');
           txt.innerHTML = html;
           return txt.value;
         };
-        var sentAnalysis;
-        var freqAnalysis;
         if ('{{figure.type}}' == 'Frequency analysis') {
           var string = JSON.parse(decodeHTML(JSON.stringify('{{figure.data}}')));
           freqAnalysis = string.slice(1,-1).split(",");
@@ -124,23 +123,21 @@
             var ind = Object.keys(freqAnalysis);
             var values = [], keys = [];
             for (k in ind) {
-              values.push(freqAnalysis[k].replace(/[^0-9]/gi, ''))
-              keys.push(freqAnalysis[k].replace(/[^а-яa-zA-ZА-Я]/gi, ''))
+              values.push(freqAnalysis[k].replace(/[^0-9]/gi, ''));
+              keys.push(freqAnalysis[k].replace(/[^а-яa-zA-ZА-ЯёЁ]/gi, ''));
             }
             set_params(keys, values);
             draw("freqChart", keys, values);
-
         }
 
+        function addTextItem() {
+
+        }
     </script>
+
     {% endfor %}
 
     </section>
-    <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
-    <div>
-    {% load markdown_extras %}
-    {{ dashboard.description | markdown | safe }}
-    </div>
 
     <p>add description</p>
     <form  action="{% url 'add_description' dashboard.id %}" method="POST">
@@ -148,6 +145,11 @@
     <textarea name="description" rows="10" cols="40">{{ dashboard.description }}</textarea>
     <input type="submit" value="Commit"/>
     </form>
+
+    <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
+    <div>
+    {{ dashboard.description | markdown | safe }}
+    </div>
 
     <h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:<h3>
       <h4>
