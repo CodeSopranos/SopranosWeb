@@ -194,6 +194,33 @@ p.nav-username {
 
 }
 
+.guest-notify {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  overflow: hidden;
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  background-color: white;
+  padding: 10px 5px;
+  margin: 20px 5px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 20px;
+  text-align: center !important;
+  color: gray;
+  text-decoration: None;
+}
+
+
+.guest-notify h2 {
+  color: black;
+}
+
+.guest-notify a:visited,{
+  color: gray !important;
+}
+
 .profile-section div.left{
     text-decoration: none;
 }
