@@ -41,10 +41,7 @@
         </div>
         <div class="right">
           <img  src="{{ request.user.email | gravatar_url }}">
-          <a class="total-dashboards">10<b style="font-size:14px;color:gray;">dashboards</b><a>
-          <!-- <div class="profile-stat">
-            5 dashs
-          </div> -->
+          <a class="total-dashboards">{{ total_boards }}<b style="font-size:14px;color:gray;">dashboards</b><a>
         </div>
       </div>
     {% else %}
@@ -59,7 +56,7 @@
     <div class="fakeimg" style="height:60px;">Image</div><br>
   </div>
   <div class="main">
-    <h2>Recent dashboards</h2>
+    <center><h2>Recent dashboards</h2></center>
     {% for board in dashboards %}
       <div class="card">
          <h2><a href="{% url 'view_by_id' board.id %}">{{board.name}}</a></h2>

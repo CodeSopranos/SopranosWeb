@@ -19,3 +19,190 @@ body {
   margin: 0;
   background: #f1f1f1;
 }
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  width: 40%;
+  /* width: 400px; */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border-radius: 20px !important;
+  text-align: center;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-image: linear-gradient(to right, var(--body_gradient_left), var(--body_gradient_right));
+  border-radius: 10px 10px 0px 0px !important;
+  color: white !important;
+
+}
+
+.modal-body-form {padding: 10px 20px;}
+
+.modal-footer {
+  /* padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+  border-radius: 10px !important; */
+}
+.side{
+  padding: 30px;
+  float: left;
+  /* margin-right: 100px; */
+}
+.main {
+  padding: 80px;
+}
+
+.input_container,
+#input_submit {
+    height: 60px;
+    /* make the borders more round */
+    border-radius: 30px;
+    width: 100%;
+}
+
+.input_field {
+    /* customize the input tag with lighter font and some padding*/
+    color: var(--icon_color);
+    background-color: inherit;
+    width: 90%;
+    border: none;
+    font-size: 1.3rem;
+    font-weight: 400;
+    padding-left: 30px;
+    margin-top: 10px;
+}
+
+
+.input_container {
+        background-color: var(--input_bg);
+        /* vertically align icon and text inside the div*/
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+    }
+
+
+.input_field{
+  color: black;
+}
+
+.input_field:hover{
+  color: gray;
+}
+
+.input_container{
+    height: 60px;
+    /* make the borders more round */
+    border-radius: 10px;
+    width: 100%;
+    margin: 10px;
+}
+
+.input_container {
+    background-color: var(--input_hover);
+}
+
+#input_submit {
+    /* submit button has a different color and different padding */
+    background-color: #003cb3;
+    padding-left: 0;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+#input_submit:hover {
+    background-color: var(--submit_hover);
+    /* simple color transition on hover */
+    transition: background-color,
+        1s;
+    cursor: pointer;
+}
+
+.input_field:hover,
+.input_field:focus {
+    /* remove the outline */
+    outline: none;
+}
+
+#error_message {
+  font-family: 'Roboto',
+  sans-serif;
+  font-weight: bold;
+  color: orange;
+  padding: 0;
+  padding-left: 100px;
+  margin: 0;
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
