@@ -12,4 +12,4 @@ sklearn
 markdown==3.2.1
 twitter-scraper==0.4.2
 django-widget-tweaks==1.4.8
-social-auth-app-django
+# social-auth-app-django
