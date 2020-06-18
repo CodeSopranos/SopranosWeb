@@ -1,26 +1,87 @@
-<header>
-  {% load gravatar_simple %}
-  <img src="{{ request.user.email | gravatar_url }}">
-</header>
-{% if request.user.is_authenticated %}
-  <a href="/board/dashboards/"><button type="button" >Back</button></a>
-  {% if request.user == dashboard.owner %}
-    <a href="{% url 'dashboard_by_id' dashboard.id %}"><button type="button" >Edit</button></a>
-  {% endif %}
-{% else %}
-  <a href="/board/feed/"><button type="button" >Back</button></a>
-{% endif %}
-<h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
-<div>
-{% load markdown_extras %}
-{{ dashboard.description | markdown | safe }}
-</div>
-<div>
-<b>Figures</b>
-    {% for figure in figures %}
-    <div>
-        <b>{{ figure.type }} (modified: {{ figure.modify_at }} )</b>
-        <p>{{figure.data}}</p>
+{% load utils %}
+{% load gravatar_simple %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html"; charset="utf-8"/>
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js"></script>
+    <script src="{% static 'board/js/draw_graphics.js' %}"></script>
+    <script src="{% static 'board/js/charts.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="{% static 'board/feed.css' %}" rel="stylesheet">
+    <link href="{% static 'board/dashboards.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- <script src={% static 'board/js/popup.js' %}></script> -->
+    <script src={% static 'board/js/slider.js' %}></script>
+</head>
+<body>
+  <script type="text/javascript">
+    var freq = 0;
+  </script>
+  <div class="navbar" style="z-index: 3;">
+    {% if request.user.is_authenticated %}
+    <a href="/board/dashboards/">Back</button></a>
+    {% if request.user == dashboard.owner %}
+    <a href="{% url 'dashboard_by_id' dashboard.id %}">Edit</button></a>
+    {% endif %}
+    {% else %}
+    <a href="/board/feed/">Back</button></a>
+    {% endif %}
+    <a href="/board/feed/" >Feed</a>
+    <a href="/board/dashboards/" class="active">My dashboards</a>
+    {% if request.user.is_authenticated %}
+    <a class="right" href="/board/signout/">Sign out</a>
+    <a  class="right" id="nav-avatar">
+      <img class="nav-avatar" src="{{ request.user.email  | gravatar_url }}">
+      <p class="nav-username">{{request.user.username}}<p>
+    </a>
+    {% else %}
+    <a class="right" href="/board/signin/">Sign in</a>
+    <a class="right" href="/board/signup/">Sign up</a>
+    {% endif %}
+  </div>
+  </div class="row" style="padding-left: 200px">
+    <div class="side" >
+      <div class="profile-section">
+        <div class="left">
+          <h2>{{request.user.username}}</h2>
+          <h5>{{request.user.email}}</h5>
+        </div>
+        <div class="right">
+          <img  src="{{ request.user.email | gravatar_url }}">
+          <a class="total-dashboards">{{ total_boards }}<b style="font-size:14px;color:gray;">dashboards</b></a>
+        
+        </div>
+      </div>
+      <div class="card" style="height: 175px"> 
+          <p>theme: <b style ="font-size:28px;font-family: Roboto,sans-serif">{{dashboard}}</b></p>
+          <p>created: <b style="font-size:14px;color:gray;">{{dashboard.created_at}}</b></p>
+      </div>
     </div>
-    {% endfor %}
-</div>
+
+    <div class="main" style="padding-left: 600px">
+        <!-- <div>
+          {% load markdown_extras %}
+          {{ dashboard.description | markdown | safe }}
+        </div> -->
+        {% for figure in figures %}
+        <div class="card">
+            <script type="text/javascript">
+                if ("{{figure.type}}" == 'Frequency analysis' && freq == 0) {
+                  freqChart('{{figure.data | sort_by_value}}');
+                  draw("{{figure.type}}", values, keys);
+                  freq = freq + 1;
+                }
+            </script>
+
+            <h2><a>{{ figure.type }} (modified: {{ figure.modify_at }})</a></h2>
+            <div id="{{figure.type}}"> </div>
+            
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
