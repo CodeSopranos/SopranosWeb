@@ -5,6 +5,16 @@ from .models import *
 
 from .models import *
 
+class FiguresAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+    # list_display = ('type', 'dashboard')
+    # ordering = ('dashboard',)
+    # fields = ('type', 'dashboard')
+    # readonly_fields = ('type', 'dashboard')
+    # view_on_site = True
+
 
 class DashboardAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
