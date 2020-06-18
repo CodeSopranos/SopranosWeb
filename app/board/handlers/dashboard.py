@@ -47,6 +47,7 @@ def get_dashboard(request, dashboard_id, additional_context={}):
     else:
         return HttpResponseRedirect(reverse('dashboards'))
 
+
 @login_required(login_url='/board/signin/')
 def create_dashboard(request):
     user = User.objects.get(pk=request.user.id)
@@ -71,7 +72,8 @@ def create_dashboard(request):
         error_message = 'Please provide a postive number of pages!'
     if error_message:
         context = {'error': error_message, 'board_name':board_name, 'theme': theme}
-        return show_dashboards(request, additional_context=context)
+        return  HttpResponseRedirect(reverse('dashboards'))
+
     # ria_parser = RIAparser()
     # articles = ria_parser.get(tag=theme, n=20, offset=n)
     twi_parser = TWITTERparser()
@@ -82,6 +84,7 @@ def create_dashboard(request):
                              data=articles,
                              private=is_private)
     return HttpResponseRedirect(reverse('dashboards'))
+
 
 @login_required(login_url='/board/signin/')
 def add_description(request, dashboard_id):

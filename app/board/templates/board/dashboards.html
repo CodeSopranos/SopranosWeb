@@ -37,10 +37,10 @@
         <h2>Create dashboard</h2>
       </div>
       <div class="modal-body-form">
-      <form action="create_dashboard/" method="POST">
+      <form name="dashboard-creation" action="create_dashboard/" method="POST" onsubmit="return validateForm()">
         {% csrf_token %}
            <div class="input_container">
-             <b>Name</b>
+             <b>Name:</b>
              <input type="text" name="board_name" maxlength="40" size="30" placeholder="My new dashboard"  value="{{ board_name }}" class="input_field"/><br>
            </div>
            <div class="input_container">
@@ -56,6 +56,7 @@
              <b>Private</b><input type="checkbox" name="is_private">
            </div>
             <input type="submit" value="Create"  class="input_field" id="input_submit"/>
+             <div id="error-message"></div>
            {% if error %}
              <p>{{ error }}</p>
              <script>
@@ -64,6 +65,26 @@
              </script>
            {% endif %}
        </form>
+       <script>
+       function validateForm() {
+          var x = document.forms["dashboard-creation"]["board_name"].value;
+          if (x == "") {
+            var loader = document.getElementById("loader-layout");
+            loader.style.display = "none";
+            var mes = document.getElementById("error-message");
+            mes.innerHTML = "Please, provide non-empty name";
+            return false;
+          }
+          var x = document.forms["dashboard-creation"]["theme"].value;
+          if (x == "") {
+            var loader = document.getElementById("loader-layout");
+            loader.style.display = "none";
+            var mes = document.getElementById("error-message");
+            mes.innerHTML = "Please, provide non-empty theme";
+            return false;
+          }
+        }
+    </script>
      </div>
     </div>
     <div class="modal-footer">
@@ -118,8 +139,15 @@
   <div class="main">
         {% for board in dashboards %}
       <div class="card">
-        <h2><a href="{% url 'view_by_id' board.id %}">{{board.name}}</a></h2>
-        <a href="{% url 'dashboard_by_id' board.id %}">edit</a> </li>
+        <h1><a href="{% url 'view_by_id' board.id %}">{{board.name}}</a>
+        <div id="edit">
+          <a href="{% url 'dashboard_by_id' board.id %}">edit</a>
+        </div>
+      </h1>
+          <div class="card-info">
+          <img  src="{{ board.owner.email | gravatar_url }}">
+          {{board.owner}}, created {{board.created_at}}
+        </div>
       </div>
      {% endfor %}
      </ul>

@@ -57,6 +57,11 @@
   </div>
   <div class="main">
     <center><h2>Recent dashboards</h2></center>
+    <div class="tags">
+      {% for tag in tags %}
+      <a href="#" class="tag">{{ tag }}</a>
+      {% endfor %}
+    </div>
     {% for board in dashboards %}
       <div class="card">
          <h2><a href="{% url 'view_by_id' board.id %}">{{board.name}}</a></h2>
