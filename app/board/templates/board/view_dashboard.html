@@ -68,17 +68,23 @@
         </div> -->
         {% for figure in figures %}
         <div class="card">
-            <script type="text/javascript">
-                if ("{{figure.type}}" == 'Frequency analysis' && freq == 0) {
-                  freqChart('{{figure.data | sort_by_value}}');
-                  draw("{{figure.type}}", values, keys);
-                  freq = freq + 1;
-                }
-            </script>
-
-            <h2><a>{{ figure.type }} (modified: {{ figure.modify_at }})</a></h2>
             <div id="{{figure.type}}"> </div>
-            
+
+            <script type="text/javascript">
+                freq = freq + 1;
+                if ("{{figure.type}}" == 'Frequency analysis') {
+                  freqChart('{{figure.data | sort_by_value}}');
+                }
+              
+            </script>
+            <h2><a>{{ figure.type }} (modified: {{ figure.modify_at }})</a></h2>
+            <script type="text/javascript">
+              freq = freq + 1;
+              if ("{{figure.type}}" == 'Frequency analysis') {
+                draw("{{figure.type}}", values, keys);
+              }
+
+            </script>
       </div>
       {% endfor %}
     </div>

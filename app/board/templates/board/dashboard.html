@@ -80,6 +80,13 @@
       {% if error %}
         <p style="color:red;">{{ error }}</p>
       {% endif %}
+      <h1>{{dashboard}}</h1>{{dashboard.owner}}<p>created: {{dashboard.created_at}}</p>
+      <p>add description</p>
+      <form  action="{% url 'add_description' dashboard.id %}" method="POST">
+        {% csrf_token %}
+       <textarea name="description" rows="10" cols="40">{{ dashboard.description }}</textarea>
+       <input type="submit" value="Commit"/>
+      </form>
     </div>
 
   </div>
