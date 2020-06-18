@@ -16,3 +16,8 @@ def get_values(dictionary):
 @register.filter
 def sort_by_value(dictionary):
     return dict(sorted(dictionary.items(), key=lambda kv: kv[1]))
+
+@register.filter
+def get_hashtags(text):
+    hashtags = [word[1:] for word in text.split() if word[0] == '#']
+    return set(hashtags)

@@ -247,6 +247,13 @@ p.nav-username {
 
 }
 
+.profile-section a.dashboard-theme{
+  /* margin-right: 0; */
+  margin-left: 30px;
+  margin-right: 0;
+  color: #66ff66;
+
+}
 
 .profile-section :after {
   content: "";
