@@ -12,12 +12,14 @@
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link href="{% static 'board/feed.css' %}" rel="stylesheet">
     <link href="{% static 'board/dashboards.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- <script src={% static 'board/js/popup.js' %}></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src={% static 'board/js/slider.js' %}></script>
 </head>
 <body>
-
+  <script type="text/javascript">
+    var freq = 0;
+  </script>
   <div class="navbar" style="z-index: 3;">
     {% if request.user.is_authenticated %}
     <a href="/board/dashboards/">Back</button></a>
@@ -66,20 +68,19 @@
         </div> -->
         {% for figure in figures %}
         <div class="card">
-            <h2><a>{{ figure.type }} (modified: {{ figure.modify_at }} )</a></h2>
             <script type="text/javascript">
-                if ("{{figure.type}}" == 'Frequency analysis') {
+                if ("{{figure.type}}" == 'Frequency analysis' && freq == 0) {
                   freqChart('{{figure.data | sort_by_value}}');
+                  draw("{{figure.type}}", values, keys);
+                  freq = freq + 1;
                 }
             </script>
+
+            <h2><a>{{ figure.type }} (modified: {{ figure.modify_at }})</a></h2>
             <div id="{{figure.type}}"> </div>
-            <script type="text/javascript">
-              if ("{{figure.type}}" == 'Frequency analysis') {
-                draw("{{figure.type}}", values, keys);
-              }
-            </script>
-        </div>
-        {% endfor %}
+            
+      </div>
+      {% endfor %}
     </div>
   </div>
 </body>

@@ -1,4 +1,5 @@
-var values = [], keys = [];
+var values = [], keys = []
+var freq = 0;
 anychart.onDocumentReady(function () {
     var data = [];
     // create data

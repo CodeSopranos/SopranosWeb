@@ -68,14 +68,14 @@
             {% endfor %}
         </ul>
       </h4>
-      <p>add new figure</p>
-      <form  action="{% url 'add_figure' dashboard.id %}" method="POST">
+      <h3 style="color:darkblue;">Add new figure</h3>
+      <form  action="{% url 'add_figure' dashboard.id %}" method="POST" id="Choosing">
         {% csrf_token %}
-      <select name="figure_type" size="4">
-          <option>Frequency analysis</option>
-          <option>Wordcloud</option>
-      </select><br>
-          <input type="submit" value="Add"/>
+        <select name="figure_type" size="4">
+            <option>Frequency analysis</option>
+            <option>Wordcloud</option>
+        </select><br>
+        <input type="submit" value="Add"/>
       </form>
       {% if error %}
         <p style="color:red;">{{ error }}</p>

@@ -8,6 +8,16 @@ function draw(id, keys, values) {
         orientation: 'h'
       }
     ];
+    // var layout = [
+    //     {
+    //         marker = {
+    //             gradient: {
+    //                 type: 'horizontal',
+    //                 color: rgb(200, 0, 193),
+    //             }
+    //         }
+    //     }
+    // ];
     Plotly.newPlot(id, data);
 }
 
