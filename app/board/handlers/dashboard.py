@@ -14,6 +14,7 @@ from board.models import Dashboard, Figure
 from board.transport.RIAparser import RIAparser
 from board.transport.Twiparser import TWITTERparser
 
+import numpy as np
 
 @login_required(login_url='/board/signin/')
 def show_dashboards(request, additional_context={}):
@@ -27,7 +28,7 @@ def view_dashboard(request, dashboard_id, additional_context={}):
     dashboard = get_object_or_404(Dashboard, pk=dashboard_id)
     figures = dashboard.figure_set.order_by('-modify_at')
     context = { 'dashboard': dashboard,
-                'dashboard_data':dashboard.data[:10],
+                'dashboard_data':np.random.permutation(dashboard.data)[:2],
                 'figures': figures,
                 **additional_context}
     return HttpResponse(render(request, 'board/view_dashboard.html', context))
@@ -40,7 +41,7 @@ def get_dashboard(request, dashboard_id, additional_context={}):
     if dashboard.owner == user:
         figures = dashboard.figure_set.order_by('-modify_at')
         context = { 'dashboard': dashboard,
-                    'dashboard_data':dashboard.data[:10],
+                    'dashboard_data': np.random.permutation(dashboard.data)[:3],
                     'figures': figures,
                     **additional_context}
         return HttpResponse(render(request, 'board/dashboard.html', context))

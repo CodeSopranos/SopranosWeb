@@ -48,10 +48,10 @@
       <div class="right">
         <img  src="{{ request.user.email | gravatar_url }}">
         <a class="total-dashboards">{{ total_boards }}<b style="font-size:14px;color:gray;">dashboards</b></a>
-      
+
       </div>
     </div>
-    <div class="card" style="height: 175px"> 
+    <div class="card" style="height: 175px">
         <p>theme: <b style ="font-size:28px;font-family: Roboto,sans-serif">{{dashboard}}</b></p>
         <p>created: <b style="font-size:14px;color:gray;">{{dashboard.created_at}}</b></p>
     </div>
@@ -59,23 +59,22 @@
   <div class="main" style="padding-left: 500px">
     <div class="card">
       <h3  style="color:darkblue;">What we found for {{dashboard.theme}} theme:</h3>
-      <h4>
         <ul>
             {% for article in dashboard_data %}
             <li>
-                <b><i style="color:grey;">{{ article.created_at }}:</i> {{ article.title }}: {{ article.text | get_hashtags}}</b><br />
+                <b><i style="color:grey;">{{ article.created_at }}:</b></i> <b>{{ article.title }}:</b>
+                 <p>{{ article.text }}</p><br/>
             </li>
             {% endfor %}
         </ul>
-      </h4>
       <h3 style="color:darkblue;">Add new figure</h3>
       <form  action="{% url 'add_figure' dashboard.id %}" method="POST" id="Choosing">
         {% csrf_token %}
-        <select name="figure_type" size="4">
-            <option>Frequency analysis</option>
-            <option>Wordcloud</option>
-        </select><br>
-        <input type="submit" value="Add"/>
+          <select name="figure_type" class="custom-select"  style="width:400px;">
+              <option>Frequency analysis</option>
+              <option>Wordcloud</option>
+          </select>
+        <input type="submit" value="Add" class="input_field" id="input_submit"/>
       </form>
       {% if error %}
         <p style="color:red;">{{ error }}</p>

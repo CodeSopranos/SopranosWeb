@@ -239,16 +239,24 @@ body {
   font-size: 16px;
 }
 
+#Frequency\ analysis{
+  width: 500px;
+  height: 500px;
+  padding: 10px 20px;
+  margin-left: 100px;
+}
+
 #Wordcloud {
   width: 800px;
-  height: 400px;
+  height: 500px;
+  padding: 20px;
 }
 
 #Choosing {
   padding-left: 25px;
   font-family: Roboto,
   sans-serif;
-} 
+}
 
 /* The container must be positioned relative: */
 .custom-select {
@@ -344,4 +352,10 @@ body {
 .card-info {
   color: black;
   background-color: #f1f1f1;
+}
+
+.custom-select {
+  font-family: font-family: Roboto,
+  sans-serif;
+  padding: 5px;
 }

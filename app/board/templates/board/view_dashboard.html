@@ -52,14 +52,15 @@
         <div class="right">
           <img  src="{{ request.user.email | gravatar_url }}">
           <a class="total-dashboards">{{ total_boards }}<b style="font-size:14px;color:gray;">dashboards</b></a>
-        
+
         </div>
       </div>
-      <div class="card" style="height: 175px"> 
-          <p>theme: <b style ="font-size:28px;font-family: Roboto,sans-serif">{{dashboard}}</b></p>
+      <div class="card" style="height: 175px">
+          <p>theme: <b style ="font-size:28px;font-family: Roboto,sans-serif">{{dashboard.theme}}</b></p>
           <p>created: <b style="font-size:14px;color:gray;">{{dashboard.created_at}}</b></p>
       </div>
     </div>
+
 
     <div class="main" style="padding-left: 600px">
         <!-- <div>
@@ -75,10 +76,10 @@
                   freq = freq + 1;
                 }
             </script>
-
-            <h2><a>{{ figure.type }} (modified: {{ figure.modify_at }})</a></h2>
+            <h2><a>{{ figure.type }}</a></h2>
+            <p>modified: {{ figure.modify_at }}</p>
             <div id="{{figure.type}}"> </div>
-            
+
       </div>
       {% endfor %}
     </div>
