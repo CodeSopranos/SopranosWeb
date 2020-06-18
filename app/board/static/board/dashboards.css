@@ -43,7 +43,7 @@ body {
   padding: 0;
   width: 40%;
   /* width: 400px; */
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
@@ -100,7 +100,7 @@ body {
   /* margin-right: 100px; */
 }
 .main {
-  padding: 80px;
+  padding: 20px 80px;
 }
 
 .input_container,
@@ -226,4 +226,39 @@ body {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+#error-message{
+  padding: 10px;
+  font-family: 'Roboto',
+  sans-serif;
+  font-weight: bold;
+  color: orange;
+}
+
+#edit{
+  color: black;
+  background-color: #f1f1f1;
+  font-family: 'Roboto',
+  sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  padding: 0 30px;
+  margin-left: 10px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+  border-radius: 25px;
+}
+#edit a{
+    text-decoration: none !important;
+}
+
+#edit:hover{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1),0 6px 10px 0 rgba(0,0,0,0.1);
+}
+
+.card-info {
+  color: black;
+  background-color: #f1f1f1;
 }
