@@ -93,7 +93,24 @@ p.nav-username {
   color: white;
 }
 
+.tags{
+  display: inline-block;
+}
 
+.tags a.tag{
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+  color: black;
+  margin: 0 5px;
+  font-family: 'Roboto',
+  sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 7px;
+  background-color: #b3b3b3;
+  border-radius: 15px;
+}
 
 /* Column container */
 .row {
